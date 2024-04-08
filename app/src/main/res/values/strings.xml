@@ -23,4 +23,9 @@
     <string name="register">Registrarse</string>
     <string name="iberdrola">¡Todo es mejor con Iberdrola!</string>
     <string name="pass">Contraseña:</string>
+    <string name="cancel">Cancelar</string>
+    <string name="usuario_signup">Indique un usuario:</string>
+    <string name="pass_signup">Indique una contraseña:</string>
+    <string name="enviar">Enviar</string>
+    <string name="forgotpasstxt">Indique el correo al que le enviaremos la recuperación de la contraseña.</string>
 </resources>

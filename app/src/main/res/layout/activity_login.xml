@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Login">
+    tools:context=".ui.auth.LoginActivity">
 
     <ImageView
         android:id="@+id/iv_iberLogin"
@@ -66,7 +66,7 @@
         />
 
     <Button
-        style="@style/boton_login_registrate"
+        style="@style/boton_login"
         android:id="@+id/bt_Login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,6 +85,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
+        style="@style/boton_register"
         android:id="@+id/bt_Register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
