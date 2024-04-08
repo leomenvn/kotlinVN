@@ -4,29 +4,142 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.Instalacion">
-
-    <ImageView
-        android:contentDescription="@string/txtEnergia"
-        android:id="@+id/iv_frEner"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        tools:src="@drawable/plan_gestiones"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+    tools:context=".ui.ss.fragments.InstalacionFragment">
 
     <TextView
-        android:id="@+id/tv_frEner"
+        android:id="@+id/tv_CAU"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/txtEnergia"
-        android:paddingStart="100dp"
-        android:paddingEnd="100dp"
+        android:text="@string/cau"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_cau"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/cau"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_frEner"
-        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/tv_CAU"
+        android:autofillHints="" />
+
+    <TextView
+        android:id="@+id/tv_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/estadoSol"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toBottomOf="@id/et_cau"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/estadoSol"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_state"
+        android:autofillHints="" />
+
+    <ImageView
+        android:id="@+id/iv_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/info"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="5dp"
+        app:layout_constraintStart_toEndOf="@id/et_state"
+        app:layout_constraintTop_toBottomOf="@id/tv_state"
+        android:contentDescription="@string/detallesinfo" />
+
+    <TextView
+        android:id="@+id/tv_tipo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/detallesTipo"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toBottomOf="@id/et_state"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_tipo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/detallesTipo"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_tipo"
+        android:autofillHints="" />
+
+    <TextView
+        android:id="@+id/tv_compensacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/detallesCompensacion"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toBottomOf="@id/et_tipo"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_compensacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/detallesCompensacion"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_compensacion"
+        android:autofillHints="" />
+
+    <TextView
+        android:id="@+id/tv_potencia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/potencia"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toBottomOf="@id/et_compensacion"
+        app:layout_constraintStart_toStartOf="parent"
         />
+
+    <EditText
+        android:id="@+id/et_potencia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/potencia"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_potencia"
+        android:autofillHints="" />
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

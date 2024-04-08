@@ -9,52 +9,62 @@
     tools:context=".ui.MainActivity">
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="148dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="153dp"
-        android:layout_marginEnd="253dp"
-        android:gravity="center"
+        android:id="@+id/tv_inicio"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="100dp"
+        android:textSize="40sp"
         android:text="@string/appname"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/botonPR1"
-        android:layout_width="390dp"
-        android:layout_height="48dp"
-        android:scaleType="centerInside"
-        android:gravity="start"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="27dp"
-        android:layout_marginEnd="11dp"
-        android:layout_marginBottom="2dp"
+    <TextView
+        android:id="@+id/tv_practica1"
         android:text="@string/botonPR1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
-        app:iconTint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/botonPR2"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="30sp"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@id/tv_inicio" />
 
-    <Button
-        android:id="@+id/botonPR2"
-        android:layout_width="390dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="2dp"
-        android:gravity="start"
+    <ImageView
+        android:id="@+id/iv_practica1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/chevron_right"
+        android:layout_marginTop="57dp"
+        android:layout_marginStart="30dp"
+        android:contentDescription="@string/flecha_practica1"
+        app:layout_constraintStart_toEndOf="@id/tv_practica1"
+        app:layout_constraintTop_toBottomOf="@id/tv_inicio"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <TextView
+        android:id="@+id/tv_practica2"
         android:text="@string/botonPR2"
-        android:layout_marginEnd="11dp"
-        android:layout_marginBottom="444dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="30sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/botonPR1" />
+        app:layout_constraintTop_toBottomOf="@id/tv_practica1" />
+
+    <ImageView
+        android:id="@+id/iv_practica2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="27dp"
+        android:clickable="true"
+        android:contentDescription="@string/flecha_practica2"
+        android:focusable="true"
+        app:layout_constraintStart_toEndOf="@id/tv_practica2"
+        app:layout_constraintTop_toBottomOf="@id/tv_practica1"
+        app:srcCompat="@drawable/chevron_right" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

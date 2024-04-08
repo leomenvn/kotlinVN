@@ -11,8 +11,6 @@
     <string name="mi_instalaci_n">Mi instalación</string>
     <string name="energia">Energía</string>
     <string name="detalles">Detalles</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="txtInstalacion">Aquí tienes los datos de tu instalación fotovolcaica en tiempo real.</string>
     <string name="txtEnergia">Estamos trabajando en mejorar la App. Tus paneles solares siguen produciendo, en breve prodrás seguir viendo tu producción solar. Sentimos las molestias.</string>
     <string name="usuario">Usuario: </string>
@@ -28,4 +26,24 @@
     <string name="pass_signup">Indique una contraseña:</string>
     <string name="enviar">Enviar</string>
     <string name="forgotpasstxt">Indique el correo al que le enviaremos la recuperación de la contraseña.</string>
+    <string name="flecha_practica2">Pincha aquí para acceder a la práctica 2.</string>
+    <string name="flecha_practica1">Pincha aquí para acceder a la práctica 1.</string>
+    <string name="cau">CAU (Código Autoconsumo)</string>
+    <string name="estadoSol">Estado solicitud alta consumidor</string>
+    <string name="detallesinfo">Pinche aquí para más información de su solicitud.</string>
+    <string name="detallesTipo">Tipo autoconsumo</string>
+    <string name="detallesCompensacion">Compesación de excendentes</string>
+    <string name="potencia">Potencia de instalación</string>
+    <string name="estadoCon">Estado solicitud autoconsumo</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="info_estadoCon">El tiempo estimado de activación de tu autoconsumo es de 1 a 2 meses, este variará en función de tu comunidad autónoma y distribuidora</string>
+    <string name="autconsumo">Autoconsumo: 92%</string>
+    <string name="info">Información</string>
+    <string name="cerrar">Cerrar</string>
+    <string name="info_facturas">Esta funcionalidad aún no está disponible.</string>
+    <string name="filtrar_facturas">Filtrar facturas</string>
+    <string name="filtrar_fecha">Con fecha de emisión</string>
+    <string name="desde">Desde</string>
+    <string name="hasta">Hasta:</string>
+
 </resources>
