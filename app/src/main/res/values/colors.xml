@@ -13,4 +13,6 @@
     <color name="orange">#FFA500</color>
     <color name="purple">#800080</color>
     <color name="pink">#FFC0CB</color>
+    <color name="gris_oscuro">#333333</color>
+    <color name="transparente">#00000000</color>
 </resources>

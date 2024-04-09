@@ -41,7 +41,9 @@ class LoginActivity : AppCompatActivity() {
             val password: String = passwordEt.text.toString()
 
             if(TextUtils.isEmpty(usuario) || TextUtils.isEmpty(password)) {
-                Toast.makeText(this@LoginActivity, "Por favor, rellene los campos obligatorios.", Toast.LENGTH_LONG).show()
+                //Toast.makeText(this@LoginActivity, "Por favor, rellene los campos obligatorios.", Toast.LENGTH_LONG).show()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
             } else{
                 auth.signInWithEmailAndPassword(usuario, password).addOnCompleteListener(this, OnCompleteListener { task ->
                     if(task.isSuccessful) {
