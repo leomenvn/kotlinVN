@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "241474088866",
+    "project_id": "iberdrola-8a87b",
+    "storage_bucket": "iberdrola-8a87b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241474088866:android:07fec250367a2d13d10cfb",
+        "android_client_info": {
+          "package_name": "com.example.iberdrola"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmOeHqeiCl-EA2I58BK4LY3ZE2yq1dI5U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
