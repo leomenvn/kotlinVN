@@ -76,6 +76,7 @@
         app:layout_constraintTop_toBottomOf="@id/facturasTB"
         />
 
+    <!--
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/facturasRV"
         android:layout_width="match_parent"
@@ -84,6 +85,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/facturasTEXTO" />
-
+    -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

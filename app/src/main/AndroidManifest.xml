@@ -25,7 +25,7 @@
             android:name=".ui.auth.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.facturas.SmartSolar"
+            android:name=".ui.ss.SmartSolarActivity"
             android:exported="false" />
         <activity
             android:name=".ui.facturas.FacturasActivity"
