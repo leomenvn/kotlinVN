@@ -139,8 +139,4 @@
         app:layout_constraintTop_toBottomOf="@id/tv_potencia"
         android:autofillHints="" />
 
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

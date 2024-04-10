@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("com.google.gms.google-services")
+
 }
 
 android {
@@ -58,6 +59,9 @@ dependencies {
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
+    implementation (libs.androidx.navigation.fragment.ktx)
+    implementation (libs.androidx.navigation.ui.ktx)
+
 
     // Room
     implementation(libs.androidx.room.ktx)
