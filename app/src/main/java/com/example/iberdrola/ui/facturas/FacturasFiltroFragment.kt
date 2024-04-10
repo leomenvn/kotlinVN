@@ -1,4 +1,4 @@
-package com.example.iberdrola.ui.ss.fragments
+package com.example.iberdrola.ui.facturas
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,10 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.iberdrola.R
 
-class DetallesFragment : Fragment() {
 
+class FacturasFiltroFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(
@@ -18,7 +19,8 @@ class DetallesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detalles, container, false)
+        return inflater.inflate(R.layout.fragment_facturas_filtro, container, false)
     }
+
 
 }

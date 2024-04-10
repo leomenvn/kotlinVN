@@ -60,5 +60,8 @@
     <string name="pendientePago">Pendiente de pago</string>
     <string name="fechafactura">Dia / Mes / Año</string>
     <string name="montofactura">68,54€</string>
+    <string name="filters">Filters</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

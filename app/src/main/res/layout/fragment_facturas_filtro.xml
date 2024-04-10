@@ -5,7 +5,7 @@
     android:id="@+id/facturasFiltroXML"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.facturas.FacturasFiltroActivity">
+    tools:context=".ui.facturas.FacturasFiltroFragment">
 
     <TextView
         android:id="@+id/tv_filtrar"

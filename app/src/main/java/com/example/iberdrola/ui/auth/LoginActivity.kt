@@ -8,65 +8,81 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.iberdrola.R
+import com.example.iberdrola.databinding.ActivityLoginBinding
+import com.example.iberdrola.databinding.ActivityMainBinding
 import com.example.iberdrola.ui.MainActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
 
+    // Firebase
     private lateinit var auth: FirebaseAuth
-    private lateinit var usuarioEt: EditText
-    private lateinit var passwordEt: EditText
-    private lateinit var signupBtn: Button
-    private lateinit var loginBtn: Button
-    private lateinit var resetPasswordTv: TextView
+    // Bindings
+    private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        usuarioEt = findViewById(R.id.et_NameLogin)
-        passwordEt = findViewById(R.id.et_passLogin)
-
-        signupBtn = findViewById(R.id.bt_Register)
-        loginBtn = findViewById(R.id.bt_Login)
-
-        resetPasswordTv = findViewById(R.id.tv_LostPass)
-
-        auth = FirebaseAuth.getInstance()
-
-        loginBtn.setOnClickListener {
-            val usuario: String = usuarioEt.text.toString()
-            val password: String = passwordEt.text.toString()
-
-            if(TextUtils.isEmpty(usuario) || TextUtils.isEmpty(password)) {
-                //Toast.makeText(this@LoginActivity, "Por favor, rellene los campos obligatorios.", Toast.LENGTH_LONG).show()
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-            } else{
-                auth.signInWithEmailAndPassword(usuario, password).addOnCompleteListener(this, OnCompleteListener { task ->
-                    if(task.isSuccessful) {
-                        Toast.makeText(this, "Bienvenido, $usuario", Toast.LENGTH_LONG).show()
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }else {
-                        Toast.makeText(this, "ERROR: no se pudo iniciar sesión.", Toast.LENGTH_LONG).show()
-                    }
-                })
-            }
+        // Mejora visual
+        enableEdgeToEdge()
+        setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.loginXML)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
         }
 
-        signupBtn.setOnClickListener{
+        // Llamada a la función de inicio de sesión
+        binding.btLogin.setOnClickListener {
+            logIn()
+        }
+
+        // Ir a la pantalla para registrarse
+        binding.btRegister.setOnClickListener{
             val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
             finish()
         }
 
-        resetPasswordTv.setOnClickListener{
+        // Ir a la pantalla para recuperar contraseña
+        binding.tvLostPass.setOnClickListener{
             val intent = Intent(this, ResetPasswordActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    // Función para iniciar sesión
+    private fun logIn(){
+        val usuario: String = binding.etNameLogin.text.toString()
+        val password: String = binding.etPassLogin.text.toString()
+
+        // Comprobar campos rellenos
+        if(TextUtils.isEmpty(usuario) || TextUtils.isEmpty(password)) {
+            //Toast.makeText(this@LoginActivity, "Por favor, rellene los campos obligatorios.", Toast.LENGTH_LONG).show()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        else{
+            auth.signInWithEmailAndPassword(usuario, password).addOnCompleteListener(this, OnCompleteListener { task ->
+                if(task.isSuccessful) {
+                    Toast.makeText(this, "Bienvenido, $usuario", Toast.LENGTH_LONG).show()
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }else {
+                    Toast.makeText(this, "ERROR: no se pudo iniciar sesión.", Toast.LENGTH_LONG).show()
+                }
+            })
         }
     }
 }

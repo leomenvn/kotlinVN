@@ -14,6 +14,7 @@ import com.example.iberdrola.ui.ss.SmartSolarActivity
 
 class MainActivity : AppCompatActivity() {
 
+    // Bindings
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,18 +22,23 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         super.onCreate(savedInstanceState)
-        //enableEdgeToEdge()
+
+        // Mejora visual
+        enableEdgeToEdge()
         setContentView(binding.root)
-        /*ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
-        }*/
+        }
 
+        // La flecha lleva a la práctica 1
         binding.ivPractica1.setOnClickListener{
             val intent = Intent(this, FacturasActivity::class.java)
             startActivity(intent)
         }
+
+        // La flecha lleva a la práctica 2
         binding.ivPractica2.setOnClickListener{
             val intent = Intent(this, SmartSolarActivity::class.java)
             startActivity(intent)
