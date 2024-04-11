@@ -9,13 +9,16 @@
     tools:context=".ui.facturas.FacturasActivity">
 
     <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fcv_facturas"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout="@layout/fragment_facturas_lista"
+        app:navGraph="@navigation/nav_facturas"
+        app:defaultNavHost="true"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
