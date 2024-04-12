@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.iberdrola.R
 import com.example.iberdrola.databinding.FragmentFacturasListaBinding
-import com.example.iberdrola.domain.data.Factura
+import com.example.iberdrola.domain.data.model.Factura
 import com.example.iberdrola.ui.MainActivity
 import com.example.iberdrola.ui.facturas.adapters.FacturasListaAdapter
 import java.util.Date
@@ -32,7 +32,6 @@ class FacturasListaFragment : Fragment() {
             Factura(4, "Factura 4", 77.00, Date(), Date(), true),
             Factura(5, "Factura 5", 88.00, Date(), Date(), false)
         )
-
         return binding.root
     }
 

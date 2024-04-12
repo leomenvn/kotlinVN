@@ -4,10 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.iberdrola.R
-import com.example.iberdrola.domain.data.Factura
+import com.example.iberdrola.domain.data.model.Factura
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

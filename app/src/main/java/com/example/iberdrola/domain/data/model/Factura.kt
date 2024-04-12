@@ -1,4 +1,4 @@
-package com.example.iberdrola.domain.data
+package com.example.iberdrola.domain.data.model
 
 import java.util.Date
 
