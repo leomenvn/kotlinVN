@@ -47,24 +47,28 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+
+    // Elementos visuales
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.fragment)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
+
+    // Firebase
     implementation(libs.firebase.auth)
+
+    // Test Unitarios
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
     implementation (libs.androidx.navigation.fragment.ktx)
     implementation (libs.androidx.navigation.ui.ktx)
-
-
+    
     // Room
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
