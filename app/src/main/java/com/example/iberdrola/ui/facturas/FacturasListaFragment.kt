@@ -2,12 +2,16 @@ package com.example.iberdrola.ui.facturas
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.iberdrola.R
 import com.example.iberdrola.databinding.FragmentFacturasListaBinding
 import com.example.iberdrola.domain.data.model.Factura
@@ -18,22 +22,31 @@ import java.util.Date
 class FacturasListaFragment : Fragment() {
 
     private lateinit var listaFacturas: List<Factura>
+    private lateinit var rv: RecyclerView
+    private lateinit var adapter: FacturasListaAdapter
 
+    private val factListVM: FacturasListaViewModel by viewModels()
     private lateinit var binding: FragmentFacturasListaBinding
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // Binding
         binding = FragmentFacturasListaBinding.inflate(layoutInflater)
 
-        listaFacturas = listOf(
-            Factura(1, "Factura 1", 23.00, Date(), Date(), true),
-            Factura(2, "Factura 2", 45.00, Date(), Date(), true),
-            Factura(3, "Factura 3", 56.00, Date(), Date(), false),
-            Factura(4, "Factura 4", 77.00, Date(), Date(), true),
-            Factura(5, "Factura 5", 88.00, Date(), Date(), false)
-        )
+        listaFacturas = emptyList()
+        adapter = FacturasListaAdapter(listaFacturas)
+
+
+        // ViewModel
+        factListVM.onCreate()
+        factListVM.factModel.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                adapter.updateList(it)
+            }
+        })
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,9 +54,10 @@ class FacturasListaFragment : Fragment() {
         // Invocacion de los botones
         onListener()
 
-        val rv = binding.facturasRV
+        rv = binding.facturasRV
         rv.layoutManager = LinearLayoutManager(requireContext())
-        rv.adapter = FacturasListaAdapter(listaFacturas)
+        rv.adapter = adapter
+
     }
 
 
