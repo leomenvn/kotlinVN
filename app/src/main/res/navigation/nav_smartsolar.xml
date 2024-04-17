@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_smartsolar"
+    app:startDestination="@id/instalacionFragment">
+
+    <fragment
+        android:id="@+id/detallesFragment"
+        android:name="com.example.iberdrola.ui.ss.fragments.DetallesFragment"
+        android:label="DetallesFragment" />
+    <fragment
+        android:id="@+id/energiaFragment"
+        android:name="com.example.iberdrola.ui.ss.fragments.EnergiaFragment"
+        android:label="EnergiaFragment" >
+        <action
+            android:id="@+id/action_energiaFragment_to_detallesFragment"
+            app:destination="@id/detallesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/instalacionFragment"
+        android:name="com.example.iberdrola.ui.ss.fragments.InstalacionFragment"
+        android:label="fragment_detalles"
+        tools:layout="@layout/fragment_detalles" >
+        <action
+            android:id="@+id/action_instalacionFragment_to_energiaFragment"
+            app:destination="@id/energiaFragment" />
+    </fragment>
+</navigation>

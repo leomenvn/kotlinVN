@@ -1,13 +1,16 @@
 package com.example.iberdrola.ui.facturas
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.iberdrola.domain.data.database.IberdrolaDatabase
 import com.example.iberdrola.domain.data.model.Factura
 import com.example.iberdrola.domain.usecases.GetFacturasUseCase
 import kotlinx.coroutines.launch
+
 
 class FacturasListaViewModel: ViewModel() {
 
@@ -18,7 +21,7 @@ class FacturasListaViewModel: ViewModel() {
 
      fun onCreate() {
 
-        viewModelScope.launch {
+         viewModelScope.launch {
             try {
                 val result = getFacturasUseCase() // Llama a la función para obtener las facturas
                 _factModel.value = result ?: emptyList() // Asigna el resultado al LiveData

@@ -8,7 +8,7 @@ class GetFacturasUseCase {
     private val repository = FacturaRepository()
 
     suspend operator fun invoke() : List<Factura>? {
-        return repository.getAllFacturas()
+        return repository.getAllFacturasAPI()
     }
 
 }

@@ -1,63 +1,92 @@
 package com.example.iberdrola.ui.ss
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
-import androidx.viewpager.widget.ViewPager
+import androidx.fragment.app.FragmentContainer
+import androidx.fragment.app.FragmentContainerView
+import androidx.lifecycle.ReportFragment.Companion.reportFragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.iberdrola.R
+import com.example.iberdrola.databinding.ActivitySmartSolarBinding
+import com.example.iberdrola.ui.MainActivity
 import com.example.iberdrola.ui.ss.fragments.DetallesFragment
 import com.example.iberdrola.ui.ss.fragments.EnergiaFragment
 import com.example.iberdrola.ui.ss.fragments.InstalacionFragment
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 
 class SmartSolarActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivitySmartSolarBinding
+    private lateinit var tablayout: TabLayout
+    private lateinit var fcv: FragmentContainerView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_smart_solar)
 
+        binding = ActivitySmartSolarBinding.inflate(layoutInflater)
+        tablayout = binding.tlSM
+        fcv = binding.fcvSmartsolar
+
+
+        // Mejora visual
+        enableEdgeToEdge()
+        setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.smartsolarXML)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // ViewPager
-        val viewPager: ViewPager = findViewById(R.id.fcv_smartsolar)
-        val adapter = ViewPagerAdapter(supportFragmentManager)
-        viewPager.adapter = adapter
+        // Elementos clicables
+        onListener()
 
-        // TabLayout
-        val tabLayout: TabLayout = findViewById(R.id.tlSM)
-        tabLayout.setupWithViewPager(viewPager)
     }
 
-    class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-        override fun getItem(position: Int): Fragment {
-            return when (position) {
-                0 -> InstalacionFragment()
-                1 -> EnergiaFragment()
-                2 -> DetallesFragment()
-                else -> throw IllegalArgumentException("No existe la opción: $position")
-            }
+
+    private fun onListener() {
+        binding.ivSMBack.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
 
-        override fun getCount(): Int {
-            return 3
-        }
+        tablayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                when (tab.position) {
+                    0 -> {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.fcv_smartsolar, InstalacionFragment())
+                            .commit()
+                    }
 
-        override fun getPageTitle(position: Int): CharSequence? {
-            return when (position) {
-                0 -> "MiInstalacionFragment"
-                1 -> "EnergiaFragment"
-                2 -> "DetallesFragment"
-                else -> throw IllegalArgumentException("No existe la opción: $position")
+                    1 -> {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.fcv_smartsolar, EnergiaFragment())
+                            .commit()
+                    }
+
+                    2 -> {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.fcv_smartsolar, DetallesFragment())
+                            .commit()
+                    }
+                }
             }
-        }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+        })
     }
 }
+
+

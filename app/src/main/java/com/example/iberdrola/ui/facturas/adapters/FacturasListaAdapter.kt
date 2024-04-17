@@ -1,5 +1,6 @@
 package com.example.iberdrola.ui.facturas.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,10 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.iberdrola.R
 import com.example.iberdrola.domain.data.model.Factura
-import okhttp3.internal.notify
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+
 
 class FacturasListaAdapter(private var facturas: List<Factura>) : RecyclerView.Adapter<FacturasListaAdapter.FacturaViewHolder>() {
 
@@ -28,6 +26,7 @@ class FacturasListaAdapter(private var facturas: List<Factura>) : RecyclerView.A
         return FacturaViewHolder(itemView)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList(lista: List<Factura>){
         facturas = lista
         notifyDataSetChanged()
@@ -39,6 +38,11 @@ class FacturasListaAdapter(private var facturas: List<Factura>) : RecyclerView.A
         holder.montoTV.text = formatearMonto(factura.importeOrdenacion)
         holder.fechaCreacionTV.text = factura.fecha
         holder.pendienteTV.text = factura.descEstado
+    }
+
+    // Formatear fecha
+    private fun formatearFecha(fecha: String): String? {
+        return null
     }
 
 

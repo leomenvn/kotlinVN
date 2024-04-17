@@ -12,10 +12,11 @@
         android:id="@+id/iv_frEner"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        tools:src="@drawable/plan_gestiones"
+        android:src="@drawable/plan_gestiones"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
         />
 
     <TextView
@@ -29,5 +30,6 @@
         app:layout_constraintTop_toBottomOf="@id/iv_frEner"
         android:gravity="center"
         />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

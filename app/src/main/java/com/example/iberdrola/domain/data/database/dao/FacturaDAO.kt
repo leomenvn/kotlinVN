@@ -13,5 +13,8 @@ interface FacturaDAO {
     suspend fun getAllFacturas():List<FacturaEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(facturas:List<FacturaEntity>)
+    suspend fun insertAllFacturas(facturas:List<FacturaEntity>)
+
+    @Query("DELETE FROM TABLA_FACTURAS")
+    suspend fun deleteAllFacturas()
 }
