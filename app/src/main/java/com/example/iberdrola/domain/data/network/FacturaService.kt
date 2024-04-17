@@ -3,9 +3,6 @@ package com.example.iberdrola.domain.data.network
 import android.util.Log
 import com.example.iberdrola.core.RetrofitHelper
 import com.example.iberdrola.domain.data.model.Factura
-import com.example.iberdrola.domain.data.model.FacturaResponse
-import retrofit2.Call
-import retrofit2.Response
 
 class FacturaService {
 
@@ -21,7 +18,7 @@ class FacturaService {
                 return listaFacturas
             }
         } else {
-            Log.d("Failure", response.toString())
+            Log.d("FALLO", response.toString())
             return null
         }
     }

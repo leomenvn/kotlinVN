@@ -6,10 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.room.Room
 import com.example.iberdrola.domain.data.database.IberdrolaDatabase
+import com.example.iberdrola.domain.data.database.dao.FacturaDAO
 import com.example.iberdrola.domain.data.model.Factura
 import com.example.iberdrola.domain.usecases.GetFacturasUseCase
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class FacturasListaViewModel: ViewModel() {
@@ -18,6 +21,7 @@ class FacturasListaViewModel: ViewModel() {
     val factModel: LiveData<List<Factura>>
         get() = _factModel
     var getFacturasUseCase = GetFacturasUseCase()
+
 
      fun onCreate() {
 
@@ -28,7 +32,7 @@ class FacturasListaViewModel: ViewModel() {
             } catch (e: Exception) {
                 Log.e("FacturasListaViewModel", "Error al obtener las facturas: ${e.message}")
             }
-        }
+         }
     }
 }
 

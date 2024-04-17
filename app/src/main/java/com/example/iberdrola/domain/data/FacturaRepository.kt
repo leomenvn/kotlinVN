@@ -11,6 +11,7 @@ class FacturaRepository {
 
     private val api = FacturaService()
 
+
     suspend fun getAllFacturasAPI(): List<Factura>? {
         return api.getDataAPI()
     }

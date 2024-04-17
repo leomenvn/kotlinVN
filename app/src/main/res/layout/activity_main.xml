@@ -25,18 +25,18 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:textSize="30sp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="57dp"
         android:layout_marginStart="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_inicio" />
 
     <ImageView
         android:id="@+id/iv_practica1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:src="@drawable/chevron_right"
         android:layout_marginTop="57dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="10dp"
         android:contentDescription="@string/flecha_practica1"
         app:layout_constraintStart_toEndOf="@id/tv_practica1"
         app:layout_constraintTop_toBottomOf="@id/tv_inicio"
@@ -49,16 +49,16 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:textSize="30sp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="27dp"
         android:layout_marginStart="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_practica1" />
 
     <ImageView
         android:id="@+id/iv_practica2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="27dp"
         android:clickable="true"
         android:contentDescription="@string/flecha_practica2"

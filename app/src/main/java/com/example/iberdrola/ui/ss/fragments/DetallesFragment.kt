@@ -25,6 +25,11 @@ class DetallesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.etCau.isEnabled = false
+        binding.etState.isEnabled = false
+        binding.etTipo.isEnabled = false
+        binding.etCompensacion.isEnabled = false
+        binding.etPotencia.isEnabled = false
 
         onListener()
 
