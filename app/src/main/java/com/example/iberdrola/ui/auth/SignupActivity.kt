@@ -3,70 +3,82 @@ package com.example.iberdrola.ui.auth
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.iberdrola.R
-import com.example.iberdrola.ui.MainActivity
-import com.google.android.gms.tasks.OnCompleteListener
+import com.example.iberdrola.databinding.ActivitySignupBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 
 class SignupActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
-    private lateinit var emailEt: EditText
-    private lateinit var passwordEt: EditText
-
-    private lateinit var signUpBtn: Button
-    private lateinit var loginBtn: Button
+    private lateinit var binding: ActivitySignupBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        auth = FirebaseAuth.getInstance()
+        binding = ActivitySignupBinding.inflate(layoutInflater)
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_signup)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.signupXML)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        auth = FirebaseAuth.getInstance()
 
-        emailEt = findViewById(R.id.et_signup_NameLogin)
-        passwordEt = findViewById(R.id.et_signup_passLogin)
-
-        loginBtn = findViewById(R.id.bt_signup)
-        signUpBtn = findViewById(R.id.bt_cancel)
-
-        signUpBtn.setOnClickListener{
-            val email: String = emailEt.text.toString()
-            val password: String = passwordEt.text.toString()
-
-            if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-                Toast.makeText(this, "Por favor, rellene los campos obligatorios.", Toast.LENGTH_LONG).show()
-            } else{
-                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, OnCompleteListener{ task ->
-                    if(task.isSuccessful){
-                        Toast.makeText(this, "Se ha registrado correctamente", Toast.LENGTH_LONG).show()
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }else {
-                        Toast.makeText(this, "ERROR: no se pudo registrar.", Toast.LENGTH_LONG).show()
-                    }
-                })
-            }
+        binding.btSignup.setOnClickListener{
+            signUp()
         }
 
-        loginBtn.setOnClickListener{
+        binding.btCancel.setOnClickListener{
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-            finish()
+        }
+    }
+
+
+
+    private fun signUp() {
+        val email: String = binding.etSignupNameLogin.text.toString()
+        val password: String = binding.etSignupPassLogin.text.toString()
+
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+            Toast.makeText(this, "Por favor, rellene los campos obligatorios.", Toast.LENGTH_LONG).show()
+        } else {
+            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Se ha registrado correctamente.", Toast.LENGTH_LONG).show()
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    task.exception?.let { e ->
+                        when (e) {
+                            is FirebaseAuthWeakPasswordException -> {
+                                Toast.makeText(this, "La contraseña no es lo suficientemente segura.", Toast.LENGTH_LONG).show()
+                            }
+                            is FirebaseAuthInvalidCredentialsException -> {
+                                Toast.makeText(this, "La dirección de correo electrónico no es válida.", Toast.LENGTH_LONG).show()
+                            }
+                            is FirebaseAuthUserCollisionException -> {
+                                Toast.makeText(this, "Ya existe una cuenta con este correo electrónico.", Toast.LENGTH_LONG).show()
+                            }
+                            else -> {
+                                Toast.makeText(this, "Se produjo un error inesperado: " + e.message, Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -9,15 +9,27 @@
     tools:context=".ui.MainActivity">
 
     <TextView
+        android:id="@+id/tv_bienvenido"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:text="@string/bienvenido"
+        android:textColor="@color/blue"
+        android:layout_marginStart="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/tv_inicio"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="40dp"
         android:textSize="40sp"
         android:text="@string/appname"
         android:layout_marginStart="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tv_bienvenido" />
 
     <TextView
         android:id="@+id/tv_practica1"
@@ -66,5 +78,15 @@
         app:layout_constraintStart_toEndOf="@id/tv_practica2"
         app:layout_constraintTop_toBottomOf="@id/tv_practica1"
         android:src="@drawable/chevron_right" />
+
+    <Button
+        android:id="@+id/bt_cerrarSesion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cerrarSes"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

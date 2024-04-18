@@ -9,16 +9,20 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.iberdrola.R
 import com.example.iberdrola.databinding.ActivityMainBinding
+import com.example.iberdrola.ui.auth.LoginActivity
 import com.example.iberdrola.ui.facturas.FacturasActivity
 import com.example.iberdrola.ui.ss.SmartSolarActivity
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
     // Bindings
+    private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        auth = FirebaseAuth.getInstance()
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         super.onCreate(savedInstanceState)
@@ -32,6 +36,8 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        binding.tvBienvenido.text = "Bievenido, ${auth.currentUser?.email}"
+
         // La flecha lleva a la práctica 1
         binding.ivPractica1.setOnClickListener{
             val intent = Intent(this, FacturasActivity::class.java)
@@ -41,6 +47,13 @@ class MainActivity : AppCompatActivity() {
         // La flecha lleva a la práctica 2
         binding.ivPractica2.setOnClickListener{
             val intent = Intent(this, SmartSolarActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Cerrar sesión (volver a login)
+        binding.btCerrarSesion.setOnClickListener{
+            auth.signOut()
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
     }

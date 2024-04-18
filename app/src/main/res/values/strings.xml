@@ -64,5 +64,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="lista">Lista</string>
+    <string name="cerrarSes">CERRAR SESIÓN</string>
+    <string name="signupText">Indica tus datos para poder registrarte en nuestra aplicación.</string>
+    <string name="bienvenido">"Bienvenido, "</string>
 
 </resources>
