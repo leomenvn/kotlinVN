@@ -1,10 +1,10 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("org.jetbrains.kotlin.kapt")
     id("com.google.gms.google-services")
     id("androidx.navigation.safeargs.kotlin")
-
-
+    id("kotlin-parcelize")
 }
 
 android {
@@ -71,13 +71,16 @@ dependencies {
     
     // Room
     implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.room.paging)
+    kapt(libs.room.compiler)
 
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
+
+    // Retromock
+    implementation(libs.retromock)
 
     // Extended Icons
     implementation(libs.androidx.material.icons.extended)

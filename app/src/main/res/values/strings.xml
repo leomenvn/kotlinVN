@@ -48,8 +48,8 @@
     <string name="fechaFiltro">dia/mes/año</string>
     <string name="importeFiltro">Por un importe</string>
     <string name="rangoImporte">5€ - 250€</string>
-    <string name="filtroMIN">1€</string>
-    <string name="filtroMAX">300€</string>
+    <string name="filtroMIN">5€</string>
+    <string name="filtroMAX">250€</string>
     <string name="estadoFiltro">Por estado</string>
     <string name="pagadas">Pagadas</string>
     <string name="anuladas">Anuladas</string>

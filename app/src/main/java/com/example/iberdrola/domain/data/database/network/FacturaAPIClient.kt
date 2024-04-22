@@ -1,4 +1,4 @@
-package com.example.iberdrola.domain.data.network
+package com.example.iberdrola.domain.data.database.network
 
 import com.example.iberdrola.domain.data.model.Factura
 import com.example.iberdrola.domain.data.model.FacturaResponse

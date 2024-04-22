@@ -12,21 +12,27 @@ import com.example.iberdrola.domain.data.model.Factura
 interface FacturaDAO {
 
     @Query("SELECT * FROM TABLA_FACTURAS")
-    suspend fun getAllFacturas():List<Factura>
+    suspend fun getAllFacturas():List<FacturaEntity>
+
+    @Query("SELECT COUNT(*) FROM TABLA_FACTURAS")
+    suspend fun getFacturasCount(): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAllFacturas(facturas:List<Factura>)
+    suspend fun insertAllFacturas(facturas:List<FacturaEntity>)
 
     @Delete
-    suspend fun delete(factura: Factura)
+    suspend fun delete(factura: FacturaEntity)
 
     @Query("DELETE FROM TABLA_FACTURAS")
     suspend fun deleteAllFacturas()
 
     @Query("SELECT * FROM TABLA_FACTURAS WHERE pendiente LIKE :estado")
-    suspend fun getByPendiente(estado: String): List<Factura>
+    suspend fun getByPendiente(estado: String): List<FacturaEntity>
 
     @Query("SELECT * FROM TABLA_FACTURAS WHERE monto BETWEEN :min AND :max")
-    suspend fun getByMonto(min: Double, max: Double): List<Factura>
+    suspend fun getByMonto(min: Double, max: Double): List<FacturaEntity>
+
+    @Query("SELECT * FROM TABLA_FACTURAS WHERE pendiente LIKE :estado AND monto BETWEEN :min AND :max")
+    suspend fun getFiltradas(estado: String, min: Double, max: Double): List<FacturaEntity>
 
 }

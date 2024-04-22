@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.iberdrola.MyApplication
 import com.example.iberdrola.R
 
 class FacturasActivity : AppCompatActivity() {

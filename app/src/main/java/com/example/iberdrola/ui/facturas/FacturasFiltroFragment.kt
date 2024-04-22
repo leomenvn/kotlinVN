@@ -7,6 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
+import android.widget.SeekBar
+import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.example.iberdrola.R
 import com.example.iberdrola.databinding.FragmentFacturasFiltroBinding
@@ -17,14 +20,31 @@ import java.util.Locale
 class FacturasFiltroFragment : Fragment() {
 
     private lateinit var binding: FragmentFacturasFiltroBinding
-    private val calendar = Calendar.getInstance()
+    private val calendar = Calendar.getInstance(Locale("es", "ES"))
     private lateinit var btFechaMin: Button
     private lateinit var btFechaMax: Button
+    private lateinit var seekbarMonto: SeekBar
+    private lateinit var tvMonto: TextView
+
+    private lateinit var listaCB: List<CheckBox>
+    private lateinit var cbPagadas: CheckBox
+    private lateinit var cbAnuladas: CheckBox
+    private lateinit var cbCuota: CheckBox
+    private lateinit var cbPendientes: CheckBox
+    private lateinit var cbPlan: CheckBox
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentFacturasFiltroBinding.inflate(layoutInflater)
         btFechaMin = binding.btFechaDesde
         btFechaMax = binding.btFechaHasta
+        seekbarMonto = binding.sbImporte
+        tvMonto = binding.tvRango
+        cbPagadas = binding.cbPagadas
+        cbAnuladas = binding.cbAnuladas
+        cbCuota = binding.cbCuotafija
+        cbPendientes = binding.cbPendientes
+        cbPlan = binding.cbPlanPago
+        listaCB = listOf(cbPagadas, cbAnuladas, cbCuota, cbPendientes, cbPlan)
 
         return binding.root
     }
@@ -32,6 +52,7 @@ class FacturasFiltroFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         onClickListener()
         super.onViewCreated(view, savedInstanceState)
+
     }
 
     private fun onClickListener() {
@@ -47,6 +68,7 @@ class FacturasFiltroFragment : Fragment() {
             }
         }
 
+        // Botones fechas
         btFechaMin.setOnClickListener{
             escogerFecha(btFechaMin)
         }
@@ -54,6 +76,29 @@ class FacturasFiltroFragment : Fragment() {
         btFechaMax.setOnClickListener{
             escogerFecha(btFechaMax)
         }
+
+        // Checkboxes
+        comprobarCB()
+
+        // Seekbar
+        seekbarMonto.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val monto = progress.toFloat() * 2.5 //
+
+                val limitedAmount = when {
+                    monto < 5 -> 5f
+                    monto > 250 -> 250f
+                    else -> monto
+                }
+                tvMonto.text = String.format(Locale.getDefault(), "%.2f", limitedAmount)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
     }
 
 
@@ -74,6 +119,14 @@ class FacturasFiltroFragment : Fragment() {
         datePicker.datePicker.maxDate = System.currentTimeMillis()
 
         datePicker.show()
+    }
+
+    private fun comprobarCB(){
+        listaCB.forEach { cb ->
+            cb.setOnClickListener {
+                listaCB.filter { it != cb }.forEach { it.isChecked = false }
+            }
+        }
     }
 
 }

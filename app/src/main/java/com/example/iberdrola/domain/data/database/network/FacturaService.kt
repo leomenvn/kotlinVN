@@ -1,4 +1,4 @@
-package com.example.iberdrola.domain.data.network
+package com.example.iberdrola.domain.data.database.network
 
 import android.util.Log
 import com.example.iberdrola.core.RetrofitHelper

@@ -19,6 +19,8 @@ class FacturasListaAdapter(private var facturas: List<Factura>) : RecyclerView.A
         val pendienteTV: TextView = itemView.findViewById(R.id.tv_estadoFactura)
     }
 
+
+
     // Crear nueva vista para las facturas
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FacturaViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -36,13 +38,13 @@ class FacturasListaAdapter(private var facturas: List<Factura>) : RecyclerView.A
     override fun onBindViewHolder(holder: FacturaViewHolder, position: Int) {
         val factura = facturas[position]
         holder.montoTV.text = formatearMonto(factura.importeOrdenacion)
-        holder.fechaCreacionTV.text = factura.fecha
+        holder.fechaCreacionTV.text = formatearFecha(factura.fecha)
         holder.pendienteTV.text = factura.descEstado
     }
 
     // Formatear fecha
-    private fun formatearFecha(fecha: String): String? {
-        return null
+    private fun formatearFecha(fecha: String): String {
+        return fecha
     }
 
 

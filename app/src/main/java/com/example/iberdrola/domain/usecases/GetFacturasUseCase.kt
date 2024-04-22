@@ -5,10 +5,10 @@ import com.example.iberdrola.domain.data.model.Factura
 
 class GetFacturasUseCase {
 
-    private val repository = FacturaRepository()
-
-    suspend operator fun invoke() : List<Factura>? {
-        return repository.getAllFacturasAPI()
+    suspend operator fun invoke(repository: FacturaRepository, mode: Boolean): List<Factura>? {
+        if(mode){
+            return repository.getAllFacturasAPI()
+        }
+        return repository.getAllFacturasDB()
     }
-
 }
