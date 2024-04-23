@@ -4,8 +4,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.util.Log
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,7 +14,7 @@ import com.example.iberdrola.domain.data.model.Factura
 import com.example.iberdrola.domain.usecases.GetFacturasUseCase
 import kotlinx.coroutines.launch
 
-class FacturasActivityViewModel: ViewModel() {
+class FacturasListaViewModel: ViewModel() {
 
     private lateinit var database: IberdrolaDatabase
     private lateinit var repository: FacturaRepository

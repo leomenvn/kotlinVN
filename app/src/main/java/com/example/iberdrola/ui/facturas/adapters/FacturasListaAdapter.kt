@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.iberdrola.R
 import com.example.iberdrola.domain.data.model.Factura
 
-
 class FacturasListaAdapter(private var facturas: List<Factura>) : RecyclerView.Adapter<FacturasListaAdapter.FacturaViewHolder>() {
 
     // ViewHolder con cada elemento de un objeto factura que debe mostrar
@@ -20,7 +19,6 @@ class FacturasListaAdapter(private var facturas: List<Factura>) : RecyclerView.A
     }
 
 
-
     // Crear nueva vista para las facturas
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FacturaViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -28,11 +26,13 @@ class FacturasListaAdapter(private var facturas: List<Factura>) : RecyclerView.A
         return FacturaViewHolder(itemView)
     }
 
+
     @SuppressLint("NotifyDataSetChanged")
     fun updateList(lista: List<Factura>){
         facturas = lista
         notifyDataSetChanged()
     }
+
 
     // Asociar los datos de un objeto específico con la vista correspondiente
     override fun onBindViewHolder(holder: FacturaViewHolder, position: Int) {
@@ -41,6 +41,7 @@ class FacturasListaAdapter(private var facturas: List<Factura>) : RecyclerView.A
         holder.fechaCreacionTV.text = formatearFecha(factura.fecha)
         holder.pendienteTV.text = factura.descEstado
     }
+
 
     // Formatear fecha
     private fun formatearFecha(fecha: String): String {
