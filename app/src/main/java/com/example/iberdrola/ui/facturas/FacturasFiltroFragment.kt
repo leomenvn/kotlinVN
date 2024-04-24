@@ -110,8 +110,8 @@ class FacturasFiltroFragment : Fragment() {
     }
 
     private fun aplicarFiltro() {
-    }
 
+    }
 
     private fun comprobarCB(){
         listaCB.forEach { cb ->

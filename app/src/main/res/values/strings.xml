@@ -68,5 +68,9 @@
     <string name="signupText">Indica tus datos para poder registrarte en nuestra aplicación.</string>
     <string name="bienvenido">"Bienvenido, "</string>
     <string name="cancelarFiltro">Borrar selección</string>
+    <string name="navegacion">Navegación</string>
+    <string name="navegacion_info">Desde una aplicación Android, se pude acceder a páginas webs, mediante el navegador externo o mediante Webviews.</string>
+    <string name="navegador">Navegador</string>
+    <string name="webview">Webview</string>
 
 </resources>

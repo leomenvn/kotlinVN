@@ -2,7 +2,6 @@ package com.example.iberdrola.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -11,6 +10,7 @@ import com.example.iberdrola.R
 import com.example.iberdrola.databinding.ActivityMainBinding
 import com.example.iberdrola.ui.auth.LoginActivity
 import com.example.iberdrola.ui.facturas.FacturasActivity
+import com.example.iberdrola.ui.navegacion.NavegacionActivity
 import com.example.iberdrola.ui.ss.SmartSolarActivity
 import com.google.firebase.auth.FirebaseAuth
 
@@ -36,6 +36,11 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        onListener()
+    }
+
+
+    private fun onListener() {
         binding.tvBienvenido.text = "Bievenido, ${auth.currentUser?.email}"
 
         // La flecha lleva a la práctica 1
@@ -47,6 +52,12 @@ class MainActivity : AppCompatActivity() {
         // La flecha lleva a la práctica 2
         binding.ivPractica2.setOnClickListener{
             val intent = Intent(this, SmartSolarActivity::class.java)
+            startActivity(intent)
+        }
+
+        // La flecha lleva a Navegacion
+        binding.ivNav.setOnClickListener{
+            val intent = Intent(this, NavegacionActivity::class.java)
             startActivity(intent)
         }
 
