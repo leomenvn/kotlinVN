@@ -11,8 +11,8 @@ class FacturaRepository(database: IberdrolaDatabase) {
     private val api = FacturaService()
     private val dao: FacturaDAO = database.getDAOInstance()
 
-    suspend fun getAllFacturasAPI(): List<Factura>? {
-        return api.getDataAPI()
+    suspend fun getAllFacturasAPI(mode: Boolean): List<Factura>? {
+        return api.getDataAPI(mode)
     }
 
     suspend fun isEmpty(): Boolean {

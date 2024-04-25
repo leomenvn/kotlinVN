@@ -72,5 +72,6 @@
     <string name="navegacion_info">Desde una aplicación Android, se pude acceder a páginas webs, mediante el navegador externo o mediante Webviews.</string>
     <string name="navegador">Navegador</string>
     <string name="webview">Webview</string>
+    <string name="retromocl">Retromock</string>
 
 </resources>

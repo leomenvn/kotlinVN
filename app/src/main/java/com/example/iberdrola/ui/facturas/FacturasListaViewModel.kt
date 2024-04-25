@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,6 +19,10 @@ class FacturasListaViewModel: ViewModel() {
 
     private lateinit var database: IberdrolaDatabase
     private lateinit var repository: FacturaRepository
+
+    private val _retromock = MutableLiveData<Boolean>()
+    val retromock: LiveData<Boolean>
+        get() = _retromock
 
     private val _factModel = MutableLiveData<List<Factura>?>()
     val factModel: MutableLiveData<List<Factura>?>
@@ -56,22 +61,33 @@ class FacturasListaViewModel: ViewModel() {
         return getFacturasUseCase.invoke(repository, false)
     }
 
+    private suspend fun llamarRetromock(): List<Factura>?{
+        return getFacturasUseCase.invokeMock(repository)
+    }
+
      fun onCreate() {
          viewModelScope.launch{
-             if(repository.isEmpty()){
-                 if (isNetworkAvailable(MyApplication.context)) {
-                     llamarAPI()
-                     Log.e("CABALGA","LLAMADA A API")
-                 }else{
-                     _factModel.value = emptyList()
-                     Log.e("CABALGA","LISTA VACIA, NINGUNA DE LAS DOS")
-                 }
+             if(_retromock.value == true){
+                 _factModel.value = llamarRetromock()
              }else{
+                 if(repository.isEmpty()){
+                     if (isNetworkAvailable(MyApplication.context)) {
+                         llamarAPI()
+                         Log.e("CABALGA","LLAMADA A API")
+                     }else{
+                         _factModel.value = emptyList()
+                         Log.e("CABALGA","LISTA VACIA, NINGUNA DE LAS DOS")
+                     }
+                }else{
                  _factModel.value = llamarBDD()
                  Log.e("CABALGA","LLAMADA A BDD")
-
+                }
              }
          }
+    }
+
+    fun actualizarMock(boolean: Boolean) {
+        _retromock.value = boolean
     }
 }
 

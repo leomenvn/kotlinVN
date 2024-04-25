@@ -1,0 +1,17 @@
+{
+  "numFacturas": 8,
+  "facturas": [
+    {
+      "descEstado": "MOCK1",
+      "importeOrdenacion": 18.0999,
+      "fecha": "07/02/2019"
+    },
+
+    {
+      "descEstado": "MOCK2",
+      "importeOrdenacion": 33.333,
+      "fecha": "05/02/2019"
+    }
+  ]
+  
+}

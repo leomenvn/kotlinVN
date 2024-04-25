@@ -43,6 +43,7 @@ class FacturasListaFragment : Fragment() {
                 adapter.updateList(it)
             }
         })
+
         return binding.root
     }
 
@@ -57,10 +58,14 @@ class FacturasListaFragment : Fragment() {
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
 
+        factListVM.retromock.observe(viewLifecycleOwner){
+            factListVM.onCreate()
+        }
+
     }
 
 
-    // Método auxiliar para vincular elementos de la toolbar
+    // Método auxiliar para los elementos clicables
     private fun onListener() {
         // Vincular icono de menu con MaterialToolBar
         binding.mtbFacturas.setOnMenuItemClickListener {
@@ -77,6 +82,10 @@ class FacturasListaFragment : Fragment() {
         binding.mtbFacturas.setNavigationOnClickListener{
             val intent = Intent(requireContext(), MainActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.switchLista.setOnCheckedChangeListener { _, isChecked ->
+            factListVM.actualizarMock(isChecked)
         }
     }
 }

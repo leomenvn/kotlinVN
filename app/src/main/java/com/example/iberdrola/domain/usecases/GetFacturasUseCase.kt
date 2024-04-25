@@ -7,8 +7,12 @@ class GetFacturasUseCase {
 
     suspend operator fun invoke(repository: FacturaRepository, mode: Boolean): List<Factura>? {
         if(mode){
-            return repository.getAllFacturasAPI()
+            return repository.getAllFacturasAPI(false)
         }
         return repository.getAllFacturasDB()
+    }
+
+    suspend fun invokeMock(repository: FacturaRepository): List<Factura>? {
+        return repository.getAllFacturasAPI(true)
     }
 }

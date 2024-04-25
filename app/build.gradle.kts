@@ -85,6 +85,6 @@ dependencies {
     // Extended Icons
     implementation(libs.androidx.material.icons.extended)
 
-    // system UI Controller
+    // System UI Controller
     implementation(libs.accompanist.systemuicontroller)
 }
