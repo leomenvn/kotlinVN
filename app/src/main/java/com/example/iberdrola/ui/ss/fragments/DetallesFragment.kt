@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
+import androidx.fragment.app.viewModels
 import com.example.iberdrola.R
 import com.example.iberdrola.databinding.FragmentDetallesBinding
 
@@ -14,10 +16,28 @@ class DetallesFragment : Fragment() {
 
     // Bindings
     private lateinit var binding: FragmentDetallesBinding
+    private val viewmodel: DetallesFragmentViewModel by viewModels()
+
+    private lateinit var etCau: EditText
+    private lateinit var etState: EditText
+    private lateinit var etTipo: EditText
+    private lateinit var etCompensacion: EditText
+    private lateinit var etPotencia: EditText
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         binding = FragmentDetallesBinding.inflate(layoutInflater)
+        etCau = binding.etCau
+        etState = binding.etState
+        etTipo = binding.etTipo
+        etCompensacion = binding.etCompensacion
+        etPotencia = binding.etPotencia
+
+        etCau.isEnabled = false
+        etState.isEnabled = false
+        etTipo.isEnabled = false
+        etCompensacion.isEnabled = false
+        etPotencia.isEnabled = false
 
         return binding.root
     }
@@ -25,14 +45,9 @@ class DetallesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.etCau.isEnabled = false
-        binding.etState.isEnabled = false
-        binding.etTipo.isEnabled = false
-        binding.etCompensacion.isEnabled = false
-        binding.etPotencia.isEnabled = false
 
+        viewmodel.actualizarDetalles(etCau, etState, etTipo, etCompensacion, etPotencia)
         onListener()
-
     }
 
     private fun onListener(){

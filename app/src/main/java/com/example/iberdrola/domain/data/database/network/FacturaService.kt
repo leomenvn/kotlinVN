@@ -3,6 +3,7 @@ package com.example.iberdrola.domain.data.database.network
 import android.util.Log
 import com.example.iberdrola.core.RetrofitHelper
 import com.example.iberdrola.core.RetromockHelper
+import com.example.iberdrola.domain.data.model.DetallesResponse
 import com.example.iberdrola.domain.data.model.Factura
 
 class FacturaService {
@@ -24,6 +25,17 @@ class FacturaService {
             } else {
                 listaFacturas
             }
+        } else {
+            Log.d("FALLO EN LA RESPUESTA", response.toString())
+            null
+        }
+    }
+
+    suspend fun getDetallesAPI(): DetallesResponse? {
+        val response = retromock.create(FacturaAPIClient::class.java).getDetalles()
+
+        return if (response.isSuccessful) {
+            response.body()
         } else {
             Log.d("FALLO EN LA RESPUESTA", response.toString())
             null

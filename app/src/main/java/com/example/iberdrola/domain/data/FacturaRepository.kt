@@ -5,6 +5,7 @@ import com.example.iberdrola.domain.data.database.dao.FacturaDAO
 import com.example.iberdrola.domain.data.database.entities.FacturaEntity
 import com.example.iberdrola.domain.data.model.Factura
 import com.example.iberdrola.domain.data.database.network.FacturaService
+import com.example.iberdrola.domain.data.model.DetallesResponse
 
 class FacturaRepository(database: IberdrolaDatabase) {
 
@@ -13,6 +14,10 @@ class FacturaRepository(database: IberdrolaDatabase) {
 
     suspend fun getAllFacturasAPI(mode: Boolean): List<Factura>? {
         return api.getDataAPI(mode)
+    }
+
+    suspend fun getDetalles(): DetallesResponse? {
+        return api.getDetallesAPI()
     }
 
     suspend fun isEmpty(): Boolean {

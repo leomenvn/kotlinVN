@@ -1,6 +1,7 @@
 package com.example.iberdrola.domain.usecases
 
 import com.example.iberdrola.domain.data.FacturaRepository
+import com.example.iberdrola.domain.data.model.DetallesResponse
 import com.example.iberdrola.domain.data.model.Factura
 
 class GetFacturasUseCase {
@@ -14,5 +15,9 @@ class GetFacturasUseCase {
 
     suspend fun invokeMock(repository: FacturaRepository): List<Factura>? {
         return repository.getAllFacturasAPI(true)
+    }
+
+    suspend fun invokeDetalles(repository: FacturaRepository): DetallesResponse? {
+        return repository.getDetalles()
     }
 }
