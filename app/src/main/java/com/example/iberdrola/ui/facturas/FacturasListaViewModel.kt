@@ -52,7 +52,7 @@ class FacturasListaViewModel: ViewModel() {
             _factModel.value = getFacturasUseCase.invoke(repository, true)
             _factModel.value?.let { repository.insertAllFacturas(it) }
         } catch (e: Exception) {
-            Log.e("ViewModel API","Error al obtener las facturas: ${e.message}")
+            Log.e("LISTA VM","Error al obtener las facturas: ${e.message}")
         }
     }
 
@@ -61,9 +61,11 @@ class FacturasListaViewModel: ViewModel() {
         return getFacturasUseCase.invoke(repository, false)
     }
 
+
     private suspend fun llamarRetromock(): List<Factura>?{
         return getFacturasUseCase.invokeMock(repository)
     }
+
 
      fun onCreate() {
          viewModelScope.launch{
@@ -73,14 +75,14 @@ class FacturasListaViewModel: ViewModel() {
                  if(repository.isEmpty()){
                      if (isNetworkAvailable(MyApplication.context)) {
                          llamarAPI()
-                         Log.e("CABALGA","LLAMADA A API")
+                         Log.e("LISTA VM","LLAMADA A API")
                      }else{
                          _factModel.value = emptyList()
-                         Log.e("CABALGA","LISTA VACIA, NINGUNA DE LAS DOS")
+                         Log.e("LISTA VM","LISTA VACIA, NINGUNA DE LAS DOS")
                      }
                 }else{
                  _factModel.value = llamarBDD()
-                 Log.e("CABALGA","LLAMADA A BDD")
+                 Log.e("LISTA VM","LLAMADA A BDD")
                 }
              }
          }

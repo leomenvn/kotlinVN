@@ -13,12 +13,12 @@ interface FacturaAPIClient {
     suspend fun getDataFromAPI(): Response<FacturaResponse>
 
     @Mock
-    @MockResponse(body = "{   \"numFacturas\": 8,   \"facturas\": [     {       \"descEstado\": \"MOCK1\",       \"importeOrdenacion\": 18.0999,       \"fecha\": \"07/02/2019\"     },      {       \"descEstado\": \"MOCK2\",       \"importeOrdenacion\": 33.333,       \"fecha\": \"05/02/2019\"     }   ]    }")
+    @MockResponse(body="mockFacturas.json")
     @GET("/")
     suspend fun getDataFromMock(): Response<FacturaResponse>
 
     @Mock
-    @MockResponse(body = "{   \"cau\": \"ES00330000000298TR1FA555\",   \"estado\": \"No hay solicitud de autoconsumo\",   \"tipo\": \"Con excentes y sin compensación\",   \"compensacion\": \"Precio PVPC\",   \"potencia\": \"33kWp\" }")
+    @MockResponse(body="mockDetalles.json")
     @GET("/")
     suspend fun getDetalles(): Response<DetallesResponse>
 

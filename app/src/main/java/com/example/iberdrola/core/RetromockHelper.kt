@@ -8,6 +8,7 @@ object RetromockHelper {
         val retrofit = RetrofitHelper.getRetrofit()
         return Retromock.Builder()
             .retrofit(retrofit)
+            .defaultBodyFactory(ResourceBodyFactory())
             .build()
     }
 }
