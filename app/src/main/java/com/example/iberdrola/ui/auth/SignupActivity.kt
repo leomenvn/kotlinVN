@@ -18,16 +18,16 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 class SignupActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-
     private lateinit var binding: ActivitySignupBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
         binding = ActivitySignupBinding.inflate(layoutInflater)
 
-        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        setContentView(R.layout.activity_signup)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.signupXML)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

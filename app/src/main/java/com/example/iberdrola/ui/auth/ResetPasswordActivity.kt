@@ -19,14 +19,14 @@ class ResetPasswordActivity : AppCompatActivity() {
         private lateinit var auth: FirebaseAuth
         private lateinit var binding: ActivityResetPasswordBinding
 
-
         override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
 
             auth = FirebaseAuth.getInstance()
             binding = ActivityResetPasswordBinding.inflate(layoutInflater)
 
-            super.onCreate(savedInstanceState)
             enableEdgeToEdge()
+            setContentView(R.layout.activity_reset_password)
             setContentView(binding.root)
             ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.reset_passwordXML)) { v, insets ->
                 val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

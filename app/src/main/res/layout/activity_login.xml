@@ -73,7 +73,7 @@
         />
 
     <Button
-        style="@style/boton_login"
+        style="@style/botonIberdrola"
         android:id="@+id/bt_Login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -94,14 +94,16 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        style="@style/boton_register"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        app:strokeWidth="2dp"
         android:id="@+id/bt_Register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/register"
         app:layout_constraintTop_toBottomOf="@id/tv_also"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

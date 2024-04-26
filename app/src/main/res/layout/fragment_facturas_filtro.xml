@@ -255,7 +255,7 @@
         </androidx.core.widget.NestedScrollView>
 
         <Button
-            style="@style/boton_login"
+            style="@style/botonIberdrola"
             android:id="@+id/bt_aplicar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -266,7 +266,8 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <Button
-            style="@style/boton_register"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            app:strokeWidth="2dp"
             android:id="@+id/bt_cancelar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

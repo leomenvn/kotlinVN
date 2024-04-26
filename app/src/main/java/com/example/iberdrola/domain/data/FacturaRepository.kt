@@ -41,17 +41,6 @@ class FacturaRepository(database: IberdrolaDatabase) {
         dao.delete(fact)
     }
 
-    suspend fun deleteAllFacturas(){
-        dao.deleteAllFacturas()
-    }
-
-    suspend fun getByPendiente(estado: String): List<Factura>{
-        return entityToModel(dao.getByPendiente(estado))
-    }
-
-    suspend fun getByMonto(min: Double, max: Double): List<Factura>{
-        return entityToModel(dao.getByMonto(min, max))
-    }
 
     suspend fun getFiltradas(estado: String, min: Double, max: Double): List<Factura>{
         return entityToModel(dao.getFiltradas(estado, min, max))

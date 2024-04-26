@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         // Mejora visual
         enableEdgeToEdge()
+        setContentView(R.layout.activity_main)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
