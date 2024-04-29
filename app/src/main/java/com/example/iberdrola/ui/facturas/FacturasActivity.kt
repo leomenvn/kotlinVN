@@ -26,7 +26,6 @@ class FacturasActivity : AppCompatActivity() {
         }
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_facturas_lista, menu)
         return true

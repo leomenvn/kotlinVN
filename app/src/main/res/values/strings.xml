@@ -45,7 +45,7 @@
     <string name="filtrar_fecha">Con fecha de emisión</string>
     <string name="desde">Desde:</string>
     <string name="hasta">Hasta:</string>
-    <string name="fechaFiltro">dia/mes/año</string>
+    <string name="fechaFiltro">Día / Mes/ Año</string>
     <string name="importeFiltro">Por un importe</string>
     <string name="rangoImporte">5€ - 250€</string>
     <string name="filtroMIN">5€</string>

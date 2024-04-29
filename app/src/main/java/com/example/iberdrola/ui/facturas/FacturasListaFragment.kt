@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -23,7 +24,7 @@ class FacturasListaFragment : Fragment() {
     private lateinit var rv: RecyclerView
     private lateinit var adapter: FacturasListaAdapter
 
-    private val factListVM: FacturasListaViewModel by viewModels()
+    private val viewmodel: FacturasViewModel by activityViewModels()
     private lateinit var binding: FragmentFacturasListaBinding
 
 
@@ -37,8 +38,8 @@ class FacturasListaFragment : Fragment() {
 
 
         // ViewModel
-        factListVM.onCreate()
-        factListVM.factModel.observe(viewLifecycleOwner, Observer {
+        viewmodel.onCreate()
+        viewmodel.factModel.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 adapter.updateList(it)
             }
@@ -58,8 +59,8 @@ class FacturasListaFragment : Fragment() {
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
 
-        factListVM.retromock.observe(viewLifecycleOwner){
-            factListVM.onCreate()
+        viewmodel.retromock.observe(viewLifecycleOwner){
+            viewmodel.onCreate()
         }
 
     }
@@ -85,7 +86,7 @@ class FacturasListaFragment : Fragment() {
         }
 
         binding.switchLista.setOnCheckedChangeListener { _, isChecked ->
-            factListVM.actualizarMock(isChecked)
+            viewmodel.actualizarMock(isChecked)
         }
     }
 }
