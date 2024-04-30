@@ -32,7 +32,7 @@ interface FacturaDAO {
     @Query("SELECT * FROM TABLA_FACTURAS WHERE monto BETWEEN :min AND :max")
     suspend fun getByMonto(min: Double, max: Double): List<FacturaEntity>
 
-    @Query("SELECT * FROM TABLA_FACTURAS WHERE pendiente LIKE :estado AND monto BETWEEN :min AND :max")
-    suspend fun getFiltradas(estado: String, min: Double, max: Double): List<FacturaEntity>
+    @Query("SELECT * FROM TABLA_FACTURAS WHERE pendiente LIKE :estado AND monto >= :monto AND fechaCreacion BETWEEN :fechaMin AND :fechaMax")
+    suspend fun getFiltradas(estado: String, monto: Double, fechaMin: String, fechaMax: String): List<FacturaEntity>
 
 }

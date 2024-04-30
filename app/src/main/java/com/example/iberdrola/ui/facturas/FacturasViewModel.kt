@@ -5,19 +5,18 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.util.Log
-import android.widget.Button
 import android.widget.CheckBox
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.iberdrola.MyApplication
-import com.example.iberdrola.databinding.FragmentFacturasFiltroBinding
 import com.example.iberdrola.domain.data.FacturaRepository
 import com.example.iberdrola.domain.data.database.IberdrolaDatabase
 import com.example.iberdrola.domain.data.model.Factura
 import com.example.iberdrola.domain.data.model.Filtro
 import com.example.iberdrola.domain.usecases.GetFacturasUseCase
+import com.example.iberdrola.domain.usecases.GetFiltradasUseCase
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -38,12 +37,12 @@ class FacturasViewModel: ViewModel() {
         get() = _factModel
 
     private var getFacturasUseCase = GetFacturasUseCase()
+    private var getFiltradasUseCase = GetFiltradasUseCase()
 
 
     // VARIABLES DEL FILTRADO
-    private lateinit var binding: FragmentFacturasFiltroBinding
     private val calendar = Calendar.getInstance(Locale.getDefault())
-    private var filtro: Filtro = Filtro()
+    private var filtro = Filtro()
 
     private val _fechaMin = MutableLiveData<String>()
     val fechaMin: LiveData<String>
@@ -65,9 +64,6 @@ class FacturasViewModel: ViewModel() {
     val sbEstado: LiveData<Int>
         get() = _sbEstado
 
-    fun setSB(progress: Int) {
-        _sbEstado.value = progress
-    }
 
 
     init {
@@ -77,6 +73,14 @@ class FacturasViewModel: ViewModel() {
     private fun initRepository() {
         database = IberdrolaDatabase.getDatabase()
         repository = FacturaRepository(database)
+        _estado.value = HashMap<String, Boolean>().apply {
+            put("Pagada", false)
+            put("Anuladas", false)
+            put("Cuota fija", false)
+            put("Pendiente de pago", false)
+            put("Plan de pago", false)
+        }
+        traerFacturas()
     }
 
 
@@ -108,26 +112,28 @@ class FacturasViewModel: ViewModel() {
     }
 
 
-     fun onCreate() {
-         viewModelScope.launch{
-             if(_retromock.value == true){
+     fun traerFacturas(){
+         viewModelScope.launch {
+             if (_retromock.value == true) {
                  _factModel.value = llamarRetromock()
-             }else{
-                 if(repository.isEmpty()){
+             } else {
+                 if (repository.isEmpty()) {
                      if (isNetworkAvailable(MyApplication.context)) {
                          llamarAPI()
-                         Log.e("LISTA VM","LLAMADA A API")
-                     }else{
+                         Log.e("LISTA VM", "LLAMADA A API")
+                     } else {
                          _factModel.value = emptyList()
-                         Log.e("LISTA VM","LISTA VACIA, NINGUNA DE LAS DOS")
+                         Log.e("LISTA VM", "LISTA VACIA, NINGUNA DE LAS DOS")
                      }
-                }else{
-                 _factModel.value = llamarBDD()
-                 Log.e("LISTA VM","LLAMADA A BDD")
-                }
+                 } else {
+                     _factModel.value = llamarBDD()
+                     Log.e("LISTA VM", "LLAMADA A BDD")
+                 }
              }
          }
-    }
+     }
+
+
 
     fun actualizarMock(boolean: Boolean) {
         _retromock.value = boolean
@@ -136,23 +142,35 @@ class FacturasViewModel: ViewModel() {
 
 
     // FUNCIONES PARA EL FILTRADO
-    fun escogerFecha(btFecha: Button, context: Context, mode: Boolean) {
+    fun escogerFecha(context: Context, mode: Boolean) {
         val datePicker = DatePickerDialog(context, { _, year, month, dayOfMonth ->
 
             // Fecha escogida
-            val fecha = Calendar.getInstance()
-            fecha.set(year, month, dayOfMonth)
+            val calendar = Calendar.getInstance()
+            calendar.set(year, month, dayOfMonth)
 
-            // Formatear fecha para el botn y la BD
-            val formato = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            btFecha.text = formato.format(fecha.time)
-            if(mode) _fechaMin.value = btFecha.text.toString() else _fechaMax.value = btFecha.text.toString()
+            val fecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(calendar.time)
+            if(mode){
+                _fechaMin.value = fecha
+                filtro.fechaMin = fechaBDD(fecha)
+            } else{
+                _fechaMax.value = fecha
+                filtro.fechaMax = fechaBDD(fecha)
+            }
 
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
 
-        // Restringir fecha máxima
+        // Restringir fecha máxima y mínima
         datePicker.datePicker.maxDate = System.currentTimeMillis()
         datePicker.show()
+    }
+
+    private fun fechaBDD(fecha: String): String{
+        val aux = fecha.split("/")
+        val dd = aux[0]
+        val mm = aux[1]
+        val yy = aux[2]
+        return "$yy-$mm-$dd"
     }
 
     fun escogerMonto(progress: Int) {
@@ -164,6 +182,7 @@ class FacturasViewModel: ViewModel() {
         }
         _sbEstado.value = progress
         _monto.value = limite
+        filtro.monto = limite
     }
 
     fun comprobarCB(listaCB: List<CheckBox>) {
@@ -172,16 +191,35 @@ class FacturasViewModel: ViewModel() {
                 val estadoActual = _estado.value ?: HashMap()
                 estadoActual[cb.text.toString()] = isChecked
                 _estado.postValue(estadoActual)
+                filtro.estado[cb.text.toString()] = isChecked
             }
         }
     }
 
+    fun quitarCB(listaCB: List<CheckBox>){
+        listaCB.forEach { cb ->
+            cb.isChecked = false
+        }
+    }
+
     fun aplicarFiltro() {
-        filtro.fechaMin = _fechaMin.value
-        filtro.fechaMax = _fechaMax.value
-        filtro.estado = _estado.value
-        filtro.monto = _monto.value
-        Log.d("FILTRO:", filtro.toString())
+        var auxEstado = "%"
+        filtro.estado.forEach {
+            if (it.value) {
+                auxEstado += it.key
+            }
+        }
+        auxEstado += "%"
+
+        viewModelScope.launch {
+            _factModel.value =  getFiltradasUseCase.invoke(
+                repository,
+                auxEstado,
+                filtro.monto,
+                filtro.fechaMin,
+                filtro.fechaMax
+            )
+        }
     }
 
     fun borrarFiltro() {
@@ -190,7 +228,7 @@ class FacturasViewModel: ViewModel() {
         _monto.value = 5.0
         _sbEstado.value = 0
         filtro = Filtro()
-
+        traerFacturas()
     }
 }
 

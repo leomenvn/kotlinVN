@@ -58,9 +58,9 @@ class FacturasFiltroFragment : Fragment() {
         }
         viewmodel.fechaMin.observe(viewLifecycleOwner){ fechaMin ->
             if(fechaMin == ""){
-                btFechaMax.text = fechaDefault
+                btFechaMin.text = fechaDefault
             }else{
-                btFechaMax.text = fechaMin
+                btFechaMin.text = fechaMin
             }
         }
         viewmodel.estado.observe(viewLifecycleOwner){ estado ->
@@ -118,6 +118,7 @@ class FacturasFiltroFragment : Fragment() {
         // Aplicar filtro
         binding.btCancelar.setOnClickListener {
             viewmodel.borrarFiltro()
+            viewmodel.quitarCB(listaCB)
         }
     }
 

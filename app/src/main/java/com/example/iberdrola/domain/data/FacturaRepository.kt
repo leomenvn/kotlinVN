@@ -41,9 +41,13 @@ class FacturaRepository(database: IberdrolaDatabase) {
         dao.delete(fact)
     }
 
+    suspend fun deleteAllFacturas(){
+        dao.deleteAllFacturas()
+    }
 
-    suspend fun getFiltradas(estado: String, min: Double, max: Double): List<Factura>{
-        return entityToModel(dao.getFiltradas(estado, min, max))
+
+    suspend fun getFiltradas(estado: String, monto: Double, fechaMin: String, fechaMax: String): List<Factura>?{
+        return entityToModel(dao.getFiltradas(estado, monto, fechaMin, fechaMax))
     }
 
     private fun entityToModel(entities: List<FacturaEntity>): List<Factura>{
@@ -51,7 +55,7 @@ class FacturaRepository(database: IberdrolaDatabase) {
             Factura(
                 descEstado = it.pendiente,
                 importeOrdenacion = it.monto,
-                fecha = it.fechaCreacion
+                fecha = fechaModel(it.fechaCreacion)
             )
         }
     }
@@ -61,8 +65,24 @@ class FacturaRepository(database: IberdrolaDatabase) {
             FacturaEntity(
                 pendiente = it.descEstado,
                 monto = it.importeOrdenacion,
-                fechaCreacion = it.fecha
+                fechaCreacion = fechaEntity(it.fecha)
             )
         }
+    }
+
+    private fun fechaModel(fecha: String): String {
+        val aux = fecha.split("-")
+        val dd = aux[2]
+        val mm = aux[1]
+        val yy = aux[0]
+        return "$dd-$mm-$yy"
+    }
+
+    private fun fechaEntity(fecha: String): String{
+        val aux = fecha.split("/")
+        val dd = aux[0]
+        val mm = aux[1]
+        val yy = aux[2]
+        return "$yy-$mm-$dd"
     }
 }

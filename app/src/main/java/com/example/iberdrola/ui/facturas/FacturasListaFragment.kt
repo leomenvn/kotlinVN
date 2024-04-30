@@ -7,20 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.iberdrola.R
 import com.example.iberdrola.databinding.FragmentFacturasListaBinding
-import com.example.iberdrola.domain.data.model.Factura
 import com.example.iberdrola.ui.MainActivity
 import com.example.iberdrola.ui.facturas.adapters.FacturasListaAdapter
 
 class FacturasListaFragment : Fragment() {
 
-    private lateinit var listaFacturas: List<Factura>
     private lateinit var rv: RecyclerView
     private lateinit var adapter: FacturasListaAdapter
 
@@ -32,18 +29,10 @@ class FacturasListaFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Binding
         binding = FragmentFacturasListaBinding.inflate(layoutInflater)
-
-        listaFacturas = emptyList()
-        adapter = FacturasListaAdapter(listaFacturas)
-
-
-        // ViewModel
-        viewmodel.onCreate()
-        viewmodel.factModel.observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                adapter.updateList(it)
-            }
-        })
+        adapter = FacturasListaAdapter(emptyList())
+        rv = binding.facturasRV
+        rv.layoutManager = LinearLayoutManager(requireContext())
+        rv.adapter = adapter
 
         return binding.root
     }
@@ -51,18 +40,20 @@ class FacturasListaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Invocacion de los botones
         onListener()
+        onObserve()
+    }
 
-        rv = binding.facturasRV
-        rv.layoutManager = LinearLayoutManager(requireContext())
-        rv.adapter = adapter
 
+    private fun onObserve(){
+        viewmodel.factModel.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                adapter.updateList(it)
+            }
+        })
         viewmodel.retromock.observe(viewLifecycleOwner){
-            viewmodel.onCreate()
+            viewmodel.traerFacturas()
         }
-
     }
 
 
