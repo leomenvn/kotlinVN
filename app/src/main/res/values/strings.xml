@@ -73,5 +73,9 @@
     <string name="navegador">Navegador</string>
     <string name="webview">Webview</string>
     <string name="retromocl">Retromock</string>
+    <string name="main_admin">Info para ADMIN</string>
+    <string name="cambiar_tema">Cambiar tema</string>
+    <string name="swLista">Permitir vista de facturas</string>
+    <string name="alternar_tema">Alternar tema</string>
 
 </resources>

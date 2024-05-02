@@ -88,11 +88,11 @@ class FacturasFiltroFragment : Fragment() {
 
         // Botones fechas
         btFechaMin.setOnClickListener{
-            viewmodel.escogerFecha(btFechaMin, requireContext(), true)
+            viewmodel.escogerFecha(requireContext(), true)
         }
 
         btFechaMax.setOnClickListener{
-            viewmodel.escogerFecha(btFechaMax, requireContext(), false)
+            viewmodel.escogerFecha(requireContext(), false)
         }
 
 

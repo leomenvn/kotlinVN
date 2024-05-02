@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<defaults>
+  <entry>
+    <key>temas</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>listaVista</key>
+    <value>true</value>
+  </entry>
+</defaults>

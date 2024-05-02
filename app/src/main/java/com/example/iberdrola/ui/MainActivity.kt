@@ -2,30 +2,61 @@ package com.example.iberdrola.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.iberdrola.R
+import com.example.iberdrola.core.RemoteConfigHelper
 import com.example.iberdrola.databinding.ActivityMainBinding
 import com.example.iberdrola.ui.auth.LoginActivity
 import com.example.iberdrola.ui.facturas.FacturasActivity
 import com.example.iberdrola.ui.navegacion.NavegacionActivity
 import com.example.iberdrola.ui.ss.SmartSolarActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 
 class MainActivity : AppCompatActivity() {
 
     // Bindings
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityMainBinding
+    private lateinit var remoteConfig: FirebaseRemoteConfig
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
         binding = ActivityMainBinding.inflate(layoutInflater)
+        remoteConfig = RemoteConfigHelper().getRemoteConfig()
 
-        super.onCreate(savedInstanceState)
+        remoteConfig.fetchAndActivate()
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val updated = task.result
+                    Log.d("Remote", "Config params updated: $updated")
+                    Log.d("Remote", remoteConfig.getBoolean("listaVista").toString())
+                    Log.d("Remote", remoteConfig.getBoolean("temas").toString())
+                    binding.swVerLista.isChecked = remoteConfig.getBoolean("listaVista")
+                    binding.swTema.isChecked = remoteConfig.getBoolean("temas")
+                } else {
+                    Toast.makeText(
+                        this,
+                        "FALLO DURANTE EL FETCH",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                    remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+                }
+            }
+
+        if(binding.swTema.isChecked){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
 
         // Mejora visual
         enableEdgeToEdge()

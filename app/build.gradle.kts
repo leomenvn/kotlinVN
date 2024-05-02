@@ -58,6 +58,10 @@ dependencies {
 
     // Firebase
     implementation(libs.firebase.auth)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.config.ktx)
+    implementation(libs.firebase.analytics.ktx)
+
 
     // Test Unitarios
     testImplementation(libs.junit)
