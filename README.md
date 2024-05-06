@@ -9,5 +9,5 @@ Se trata de una aplicación móvil para Android en lenguaje Kotlin. Con el objet
 - Tests unitarios y Mockito
 
 
-Para consultar el avance y cronología del proyecto, consultar Trello:
+Para consultar el avance y cronología del proyecto, visitar Trello:
 https://trello.com/b/CtZFGI7z/viewnext-iberdrola
