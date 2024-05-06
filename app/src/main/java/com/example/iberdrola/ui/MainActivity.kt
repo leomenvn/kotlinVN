@@ -13,7 +13,7 @@ import com.example.iberdrola.databinding.ActivityMainBinding
 import com.example.iberdrola.ui.auth.LoginActivity
 import com.example.iberdrola.ui.facturas.FacturasActivity
 import com.example.iberdrola.ui.navegacion.NavegacionActivity
-import com.example.iberdrola.ui.ss.SmartSolarActivity
+import com.example.iberdrola.ui.smartsolar.SmartSolarActivity
 import com.google.firebase.auth.FirebaseAuth
 
 

@@ -1,4 +1,4 @@
-package com.example.iberdrola.core
+package com.example.iberdrola.data
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

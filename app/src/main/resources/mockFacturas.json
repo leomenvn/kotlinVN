@@ -4,13 +4,25 @@
     {
       "descEstado": "MOCK1",
       "importeOrdenacion": 18.0999,
-      "fecha": "07/02/2019"
+      "fecha": "07-02-2019"
     },
 
     {
-      "descEstado": "MOCK2",
+      "descEstado": "MOCKITO 2",
       "importeOrdenacion": 33.333,
-      "fecha": "05/02/2019"
+      "fecha": "05-02-2019"
+    },
+    {
+      "descEstado": "MOCKITO 3",
+      "importeOrdenacion": 0.000004,
+      "fecha": "05-05-3021"
+    },
+
+    {
+      "descEstado": "MOCK 4",
+      "importeOrdenacion": -100.00,
+      "fecha": "04-01-1990"
     }
+
   ]
 }

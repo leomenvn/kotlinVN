@@ -76,7 +76,6 @@ class FacturasViewModel: ViewModel() {
     private fun initRepository() {
         database = IberdrolaDatabase.getDatabase()
         repository = FacturaRepository(database)
-        remoteConfig = RemoteConfigHelper.getInstance()
         remote()
         _estado.value = HashMap<String, Boolean>().apply {
             put("Pagada", false)
@@ -89,6 +88,7 @@ class FacturasViewModel: ViewModel() {
     }
 
     private fun remote(){
+        remoteConfig = RemoteConfigHelper.getInstance()
         remoteConfig.fetch()
         visibilidad = remoteConfig.getBoolean("listaVista")
     }
@@ -131,14 +131,11 @@ class FacturasViewModel: ViewModel() {
                      if (repository.isEmpty()) {
                          if (isNetworkAvailable(MyApplication.context)) {
                              llamarAPI()
-                             Log.e("LISTA VM", "LLAMADA A API")
                          } else {
                              _factModel.value = emptyList()
-                             Log.e("LISTA VM", "LISTA VACIA, NINGUNA DE LAS DOS")
                          }
                      } else {
                          _factModel.value = llamarBDD()
-                         Log.e("LISTA VM", "LLAMADA A BDD")
                      }
                  }
              }else{

@@ -1,4 +1,4 @@
-package com.example.iberdrola.ui.ss.fragments
+package com.example.iberdrola.ui.smartsolar.fragments
 
 import android.app.Dialog
 import android.os.Bundle

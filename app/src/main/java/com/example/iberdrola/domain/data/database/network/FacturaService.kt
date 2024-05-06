@@ -1,7 +1,7 @@
 package com.example.iberdrola.domain.data.database.network
 
 import android.util.Log
-import com.example.iberdrola.core.RetrofitHelper
+import com.example.iberdrola.data.RetrofitHelper
 import com.example.iberdrola.core.RetromockHelper
 import com.example.iberdrola.domain.data.model.DetallesResponse
 import com.example.iberdrola.domain.data.model.Factura

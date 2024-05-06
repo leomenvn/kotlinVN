@@ -1,22 +1,18 @@
-package com.example.iberdrola.ui.ss
+package com.example.iberdrola.ui.smartsolar
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.FragmentContainer
 import androidx.fragment.app.FragmentContainerView
-import androidx.lifecycle.ReportFragment.Companion.reportFragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.iberdrola.R
 import com.example.iberdrola.databinding.ActivitySmartSolarBinding
 import com.example.iberdrola.ui.MainActivity
-import com.example.iberdrola.ui.ss.fragments.DetallesFragment
-import com.example.iberdrola.ui.ss.fragments.EnergiaFragment
-import com.example.iberdrola.ui.ss.fragments.InstalacionFragment
+import com.example.iberdrola.ui.smartsolar.fragments.DetallesFragment
+import com.example.iberdrola.ui.smartsolar.fragments.EnergiaFragment
+import com.example.iberdrola.ui.smartsolar.fragments.InstalacionFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 

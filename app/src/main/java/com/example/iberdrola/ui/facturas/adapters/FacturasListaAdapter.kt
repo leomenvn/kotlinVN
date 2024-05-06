@@ -11,9 +11,7 @@ import com.example.iberdrola.domain.data.model.Factura
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class FacturasListaAdapter: RecyclerView.Adapter<FacturasListaAdapter.FacturaViewHolder>() {
-
-    private lateinit var facturas: List<Factura>
+class FacturasListaAdapter(private var facturas: List<Factura>): RecyclerView.Adapter<FacturasListaAdapter.FacturaViewHolder>() {
 
     // ViewHolder con cada elemento de un objeto factura que debe mostrar
     class FacturaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

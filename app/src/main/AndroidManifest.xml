@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.ss.SmartSolarActivity"
+            android:name=".ui.smartsolar.SmartSolarActivity"
             android:exported="false" />
         <activity
             android:name=".ui.facturas.FacturasActivity"

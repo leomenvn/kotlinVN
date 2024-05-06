@@ -7,11 +7,11 @@
 
     <fragment
         android:id="@+id/detallesFragment"
-        android:name="com.example.iberdrola.ui.ss.fragments.DetallesFragment"
+        android:name="com.example.iberdrola.ui.smartsolar.fragments.DetallesFragment"
         android:label="DetallesFragment" />
     <fragment
         android:id="@+id/energiaFragment"
-        android:name="com.example.iberdrola.ui.ss.fragments.EnergiaFragment"
+        android:name="com.example.iberdrola.ui.smartsolar.fragments.EnergiaFragment"
         android:label="EnergiaFragment" >
         <action
             android:id="@+id/action_energiaFragment_to_detallesFragment"
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/instalacionFragment"
-        android:name="com.example.iberdrola.ui.ss.fragments.InstalacionFragment"
+        android:name="com.example.iberdrola.ui.smartsolar.fragments.InstalacionFragment"
         android:label="fragment_detalles"
         tools:layout="@layout/fragment_detalles" >
         <action

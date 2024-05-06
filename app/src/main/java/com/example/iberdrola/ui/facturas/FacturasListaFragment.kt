@@ -28,7 +28,7 @@ class FacturasListaFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Binding
         binding = FragmentFacturasListaBinding.inflate(layoutInflater)
-        adapter = FacturasListaAdapter()
+        adapter = FacturasListaAdapter(emptyList())
         rv = binding.facturasRV
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/ssEnergiaXML"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.ss.fragments.InstalacionFragment">
+    tools:context=".ui.smartsolar.fragments.InstalacionFragment">
 
     <ImageView
         android:contentDescription="@string/txtEnergia"

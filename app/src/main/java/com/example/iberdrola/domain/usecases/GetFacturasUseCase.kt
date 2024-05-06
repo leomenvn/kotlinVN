@@ -17,7 +17,5 @@ class GetFacturasUseCase {
         return repository.getAllFacturasAPI(true)
     }
 
-    suspend fun invokeDetalles(repository: FacturaRepository): DetallesResponse? {
-        return repository.getDetalles()
-    }
+
 }
