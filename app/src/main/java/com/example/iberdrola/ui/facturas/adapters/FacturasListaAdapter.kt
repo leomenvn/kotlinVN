@@ -8,8 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.iberdrola.R
 import com.example.iberdrola.domain.data.model.Factura
+import java.text.SimpleDateFormat
+import java.util.Locale
 
-class FacturasListaAdapter(private var facturas: List<Factura>) : RecyclerView.Adapter<FacturasListaAdapter.FacturaViewHolder>() {
+class FacturasListaAdapter: RecyclerView.Adapter<FacturasListaAdapter.FacturaViewHolder>() {
+
+    private lateinit var facturas: List<Factura>
 
     // ViewHolder con cada elemento de un objeto factura que debe mostrar
     class FacturaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -38,23 +42,19 @@ class FacturasListaAdapter(private var facturas: List<Factura>) : RecyclerView.A
     override fun onBindViewHolder(holder: FacturaViewHolder, position: Int) {
         val factura = facturas[position]
         holder.montoTV.text = formatearMonto(factura.importeOrdenacion)
-        holder.fechaCreacionTV.text = formatearFecha(factura.fecha)
+        holder.fechaCreacionTV.text = formaterarFecha(factura.fecha)
         holder.pendienteTV.text = factura.descEstado
     }
 
-
-    // Formatear fecha
-    private fun formatearFecha(fecha: String): String {
-        return fecha
-    }
-
-
-    // Número de elementos
     override fun getItemCount() = facturas.size
 
+    private fun formaterarFecha(fecha: String): String? {
+        val input = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        val output = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
+        return input.parse(fecha)?.let { output.format(it) }
+    }
 
-    // Formateo monto
-    private fun formatearMonto(monto: Double): String{
+    private fun formatearMonto(monto: Double): String {
         return String.format("%.2f", monto).replace(".", ",")+"\u20AC"
     }
 }

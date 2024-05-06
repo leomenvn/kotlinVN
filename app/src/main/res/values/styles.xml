@@ -10,11 +10,4 @@
     <item name="android:elevation">0dp</item>
     </style>
 
-    <style name="temaOscuro" parent="Theme.MaterialComponents.DayNight">
-        <item name="colorPrimary">@color/primaryDark</item>
-        <item name="colorPrimaryDark">@color/primaryDark</item>
-        <item name="colorAccent">@color/accentDark</item>
-    </style>
-
-
 </resources>

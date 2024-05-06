@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,10 +25,10 @@ class FacturasListaFragment : Fragment() {
 
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Binding
         binding = FragmentFacturasListaBinding.inflate(layoutInflater)
-        adapter = FacturasListaAdapter(emptyList())
+        adapter = FacturasListaAdapter()
         rv = binding.facturasRV
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
@@ -46,11 +45,11 @@ class FacturasListaFragment : Fragment() {
 
 
     private fun onObserve(){
-        viewmodel.factModel.observe(viewLifecycleOwner, Observer {
+        viewmodel.factModel.observe(viewLifecycleOwner){
             if (it != null) {
                 adapter.updateList(it)
             }
-        })
+        }
         viewmodel.retromock.observe(viewLifecycleOwner){
             viewmodel.traerFacturas()
         }

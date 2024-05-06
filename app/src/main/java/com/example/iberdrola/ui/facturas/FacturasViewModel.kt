@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.iberdrola.MyApplication
+import com.example.iberdrola.core.RemoteConfigHelper
 import com.example.iberdrola.domain.data.FacturaRepository
 import com.example.iberdrola.domain.data.database.IberdrolaDatabase
 import com.example.iberdrola.domain.data.model.Factura
@@ -24,17 +25,19 @@ import java.util.Locale
 
 class FacturasViewModel: ViewModel() {
 
-    // VARIABLES DE LA LISTA
     private lateinit var database: IberdrolaDatabase
     private lateinit var repository: FacturaRepository
+    private lateinit var remoteConfig: RemoteConfigHelper
 
     private val _retromock = MutableLiveData<Boolean>()
     val retromock: LiveData<Boolean>
         get() = _retromock
 
     private val _factModel = MutableLiveData<List<Factura>?>()
-    val factModel: MutableLiveData<List<Factura>?>
+    val factModel: LiveData<List<Factura>?>
         get() = _factModel
+
+    private var visibilidad: Boolean = true
 
     private var getFacturasUseCase = GetFacturasUseCase()
     private var getFiltradasUseCase = GetFiltradasUseCase()
@@ -73,6 +76,8 @@ class FacturasViewModel: ViewModel() {
     private fun initRepository() {
         database = IberdrolaDatabase.getDatabase()
         repository = FacturaRepository(database)
+        remoteConfig = RemoteConfigHelper.getInstance()
+        remote()
         _estado.value = HashMap<String, Boolean>().apply {
             put("Pagada", false)
             put("Anuladas", false)
@@ -81,6 +86,11 @@ class FacturasViewModel: ViewModel() {
             put("Plan de pago", false)
         }
         traerFacturas()
+    }
+
+    private fun remote(){
+        remoteConfig.fetch()
+        visibilidad = remoteConfig.getBoolean("listaVista")
     }
 
 
@@ -114,21 +124,25 @@ class FacturasViewModel: ViewModel() {
 
      fun traerFacturas(){
          viewModelScope.launch {
-             if (_retromock.value == true) {
-                 _factModel.value = llamarRetromock()
-             } else {
-                 if (repository.isEmpty()) {
-                     if (isNetworkAvailable(MyApplication.context)) {
-                         llamarAPI()
-                         Log.e("LISTA VM", "LLAMADA A API")
-                     } else {
-                         _factModel.value = emptyList()
-                         Log.e("LISTA VM", "LISTA VACIA, NINGUNA DE LAS DOS")
-                     }
+             if(visibilidad){
+                 if (_retromock.value == true) {
+                     _factModel.value = llamarRetromock()
                  } else {
-                     _factModel.value = llamarBDD()
-                     Log.e("LISTA VM", "LLAMADA A BDD")
+                     if (repository.isEmpty()) {
+                         if (isNetworkAvailable(MyApplication.context)) {
+                             llamarAPI()
+                             Log.e("LISTA VM", "LLAMADA A API")
+                         } else {
+                             _factModel.value = emptyList()
+                             Log.e("LISTA VM", "LISTA VACIA, NINGUNA DE LAS DOS")
+                         }
+                     } else {
+                         _factModel.value = llamarBDD()
+                         Log.e("LISTA VM", "LLAMADA A BDD")
+                     }
                  }
+             }else{
+                 _factModel.value = emptyList()
              }
          }
      }
