@@ -14,7 +14,7 @@ abstract class IberdrolaDatabase : RoomDatabase() {
     abstract fun getDAOInstance(): FacturaDAO
 
     companion object {
-        @Volatile // Avoid concurrency issues
+        @Volatile
         private var _INSTANCE: IberdrolaDatabase? = null
 
         fun getDatabase(): IberdrolaDatabase {
@@ -29,12 +29,9 @@ abstract class IberdrolaDatabase : RoomDatabase() {
                     MyApplication.context, IberdrolaDatabase::class.java, "IberdrolaDatabase"
                 ).build()
             }catch(e: Exception) {
-                // Manejar la excepción aquí
                 Log.e("IberdrolaDatabase", "Error al construir la base de datos: ${e.message}")
-                throw e // O lanzar una excepción personalizada, dependiendo de tu lógica
+                throw e
             }
-
         }
     }
-
 }

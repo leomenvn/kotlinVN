@@ -7,7 +7,7 @@ import com.example.iberdrola.R
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 
-class RemoteConfigHelper {
+class RemoteConfigHelper private constructor(){
 
     private val remoteConfig = FirebaseRemoteConfig.getInstance()
 

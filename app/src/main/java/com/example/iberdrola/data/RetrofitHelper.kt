@@ -3,12 +3,17 @@ package com.example.iberdrola.data
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RetrofitHelper {
+class RetrofitHelper private constructor() {
 
-    fun getRetrofit(): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl("https://viewnextandroid4.wiremockapi.cloud/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+    companion object {
+        @Volatile
+        private var instance: Retrofit? = null
+
+        fun getInstance(): Retrofit {
+            return Retrofit.Builder()
+                .baseUrl("https://viewnextandroid.wiremockapi.cloud/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        }
     }
 }

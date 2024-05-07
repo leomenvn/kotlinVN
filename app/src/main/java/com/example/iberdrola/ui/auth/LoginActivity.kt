@@ -6,30 +6,21 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.iberdrola.R
 import com.example.iberdrola.databinding.ActivityLoginBinding
 import com.example.iberdrola.ui.MainActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityLoginBinding
+    private val viewmodel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        auth = FirebaseAuth.getInstance()
         binding = ActivityLoginBinding.inflate(layoutInflater)
-
-        if(auth.currentUser != null){
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
 
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
@@ -40,74 +31,44 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
+        onObserve()
         onListener()
     }
 
 
-    private fun onListener() {
-        // Llamada a la función de inicio de sesión
-        binding.btLogin.setOnClickListener {
-            logIn()
+    private fun onObserve() {
+        viewmodel.estadoLog.observe(this) {
+            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
         }
 
-        // Ir a la pantalla para registrarse
+        viewmodel.usuario.observe(this) {
+            if(it != null){
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
+        }
+    }
+
+
+    private fun onListener() {
+        binding.btLogin.setOnClickListener {
+            val email = binding.etNameLogin.text.toString()
+            val pass = binding.etPassLogin.text.toString()
+            if(TextUtils.isEmpty(email) || TextUtils.isEmpty(pass)) {
+                Toast.makeText(this, "Por favor, rellene los campos obligatorios.", Toast.LENGTH_LONG).show()
+            }else{
+                viewmodel.logIn(email, pass)
+            }
+        }
+
         binding.btRegister.setOnClickListener{
             val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
         }
 
-        // Ir a la pantalla para recuperar contraseña
         binding.tvLostPass.setOnClickListener{
             val intent = Intent(this, ResetPasswordActivity::class.java)
             startActivity(intent)
-        }
-    }
-
-
-    // Función para iniciar sesión
-    private fun logIn(){
-        val email: String = binding.etNameLogin.text.toString()
-        val password: String = binding.etPassLogin.text.toString()
-
-        // Comprobar campos rellenos
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Por favor, rellene los campos obligatorios.", Toast.LENGTH_LONG).show()
-        } else {
-            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(this, "Bienvenido, $email", Toast.LENGTH_LONG).show()
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-
-                } else {
-                    task.exception?.let { e ->
-                    when (e) {
-                        is FirebaseAuthInvalidCredentialsException -> {
-                            Toast.makeText(this, "La dirección de correo electrónico o la contraseña son incorrectas.", Toast.LENGTH_LONG).show()
-
-                        } is FirebaseAuthInvalidUserException -> {
-                            when (e.errorCode) {
-                                "ERROR_INVALID_EMAIL" -> {
-                                    Toast.makeText(this, "La dirección de correo electrónico no es válida.", Toast.LENGTH_LONG).show()
-                                }
-                                "ERROR_USER_DISABLED" -> {
-                                    Toast.makeText(this, "El usuario correspondiente al correo electrónico proporcionado ha sido deshabilitado.", Toast.LENGTH_LONG).show()
-                                }
-                                "ERROR_USER_NOT_FOUND" -> {
-                                    Toast.makeText(this, "No se encontró ningún usuario correspondiente al correo electrónico proporcionado.", Toast.LENGTH_LONG).show()
-                                }
-                                else -> {
-                                    Toast.makeText(this, "Se produjo un error inesperado: ${e.message}", Toast.LENGTH_LONG).show()
-                                }
-                            }
-                        }
-                        else -> {
-                            Toast.makeText(this, "Se produjo un error inesperado: ${e.message}", Toast.LENGTH_LONG).show()
-                        }
-                    }
-                    }
-                }
-            }
         }
     }
 }

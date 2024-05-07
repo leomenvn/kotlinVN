@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -16,63 +17,47 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 class ResetPasswordActivity : AppCompatActivity() {
 
-        private lateinit var auth: FirebaseAuth
-        private lateinit var binding: ActivityResetPasswordBinding
+    private lateinit var binding: ActivityResetPasswordBinding
+    private val viewmodel: AuthViewModel by viewModels()
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityResetPasswordBinding.inflate(layoutInflater)
 
-            auth = FirebaseAuth.getInstance()
-            binding = ActivityResetPasswordBinding.inflate(layoutInflater)
-
-            enableEdgeToEdge()
-            setContentView(R.layout.activity_reset_password)
-            setContentView(binding.root)
-            ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.reset_passwordXML)) { v, insets ->
-                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-                insets
-            }
-
-
-            binding.btCancel.setOnClickListener {
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-            }
-
-            binding.btReset.setOnClickListener {
-                resetPass()
-            }
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_reset_password)
+        setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.reset_passwordXML)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
         }
 
+        onObserve()
+        onListener()
+    }
 
-    private fun resetPass() {
-        val email: String = binding.etForgotpass.text.toString()
 
-        if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "Por favor, indique un usuario.", Toast.LENGTH_LONG).show()
-        } else {
-            auth.sendPasswordResetEmail(email).addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(this, "Se ha enviado un correo electrónico para restablecer la contraseña", Toast.LENGTH_LONG).show()
-                        val intent = Intent(this, LoginActivity::class.java)
-                        startActivity(intent)
-                    } else {
-                        task.exception?.let { e ->
-                            when (e) {
-                                is FirebaseAuthInvalidUserException ->{
-                                    Toast.makeText(this, "No se encontró ninguna cuenta asociada a este correo.", Toast.LENGTH_LONG).show()
-                                }
-                                is FirebaseAuthInvalidCredentialsException -> {
-                                    Toast.makeText(this, "La dirección de correo electrónico no es válida.", Toast.LENGTH_LONG).show()
-                                }
-                                else -> {
-                                    Toast.makeText(this, "Se produjo un error inesperado: " + e.message, Toast.LENGTH_LONG).show()
-                                }
-                            }
-                        }
-                    }
-                }
+    private fun onObserve(){
+        viewmodel.estadoReset.observe(this) {
+            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+        }
+    }
+
+
+    private fun onListener(){
+        binding.btCancel.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btReset.setOnClickListener {
+            val email = binding.etForgotpass.text.toString()
+            if (TextUtils.isEmpty(email)) {
+                Toast.makeText(this, "Por favor, indique un usuario.", Toast.LENGTH_LONG).show()
+            }else{
+                viewmodel.resetPass(email)
+            }
         }
     }
 }

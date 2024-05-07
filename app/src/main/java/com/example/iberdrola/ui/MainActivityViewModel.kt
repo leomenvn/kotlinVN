@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.iberdrola.R
 import com.example.iberdrola.core.RemoteConfigHelper
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel: ViewModel() {
 
+    val auth = FirebaseAuth.getInstance()
     private var remoteConfig: RemoteConfigHelper = RemoteConfigHelper.getInstance()
 
     private val _visibilidadLista = MutableLiveData<Boolean>()

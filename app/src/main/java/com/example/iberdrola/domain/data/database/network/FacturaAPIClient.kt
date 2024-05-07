@@ -21,5 +21,4 @@ interface FacturaAPIClient {
     @MockResponse(body="mockDetalles.json")
     @GET("/")
     suspend fun getDetalles(): Response<DetallesResponse>
-
 }

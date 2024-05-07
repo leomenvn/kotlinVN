@@ -24,7 +24,6 @@ class FacturasListaFragment : Fragment() {
     private lateinit var binding: FragmentFacturasListaBinding
 
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Binding
         binding = FragmentFacturasListaBinding.inflate(layoutInflater)
@@ -70,7 +69,7 @@ class FacturasListaFragment : Fragment() {
             }
         }
 
-        binding.mtbFacturas.setNavigationOnClickListener{
+        binding.mtbFacturas.setNavigationOnClickListener {
             val intent = Intent(requireContext(), MainActivity::class.java)
             startActivity(intent)
         }

@@ -19,15 +19,12 @@ import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
-    // Bindings
-    private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityMainBinding
     private val viewmodel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        auth = FirebaseAuth.getInstance()
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         // Mejora visual
@@ -39,35 +36,32 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         onListener()
         viewmodel.onCreate()
     }
 
 
     private fun onListener() {
-        binding.tvBienvenido.text = "Bievenido, ${auth.currentUser?.email}"
+        binding.tvBienvenido.text = "Bievenido, ${viewmodel.auth.currentUser?.email}"
 
-        // La flecha lleva a la práctica 1
         binding.ivPractica1.setOnClickListener{
             val intent = Intent(this, FacturasActivity::class.java)
             startActivity(intent)
         }
 
-        // La flecha lleva a la práctica 2
         binding.ivPractica2.setOnClickListener{
             val intent = Intent(this, SmartSolarActivity::class.java)
             startActivity(intent)
         }
 
-        // La flecha lleva a Navegacion
         binding.ivNav.setOnClickListener{
             val intent = Intent(this, NavegacionActivity::class.java)
             startActivity(intent)
         }
 
-        // Cerrar sesión (volver a login)
         binding.btCerrarSesion.setOnClickListener{
-            auth.signOut()
+            viewmodel.auth.signOut()
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }

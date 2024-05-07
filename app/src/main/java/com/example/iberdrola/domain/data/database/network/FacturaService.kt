@@ -8,8 +8,8 @@ import com.example.iberdrola.domain.data.model.Factura
 
 class FacturaService {
 
-    private val retrofit = RetrofitHelper.getRetrofit()
-    private val retromock = RetromockHelper.getRetromock()
+    private val retrofit = RetrofitHelper.getInstance()
+    private val retromock = RetromockHelper.getIntance()
 
     suspend fun getDataAPI(mode: Boolean): List<Factura>? {
         var response = retrofit.create(FacturaAPIClient::class.java).getDataFromAPI()

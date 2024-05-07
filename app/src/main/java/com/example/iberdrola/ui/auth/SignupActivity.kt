@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -17,13 +18,11 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 
 class SignupActivity : AppCompatActivity() {
 
-    private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivitySignupBinding
+    private val viewmodel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        auth = FirebaseAuth.getInstance()
         binding = ActivitySignupBinding.inflate(layoutInflater)
 
         enableEdgeToEdge()
@@ -35,50 +34,37 @@ class SignupActivity : AppCompatActivity() {
             insets
         }
 
+        onObserve()
+        onListener()
+    }
 
+
+    private fun onObserve() {
+        viewmodel.estadoSign.observe(this) {
+            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+            if(it == "CORRECTO"){
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+        }
+    }
+
+
+    private fun onListener() {
         binding.btSignup.setOnClickListener{
-            signUp()
+            val email: String = binding.etSignupNameLogin.text.toString()
+            val pass: String = binding.etSignupPassLogin.text.toString()
+
+            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(pass)) {
+                Toast.makeText(this, "Por favor, rellene los campos obligatorios.", Toast.LENGTH_LONG).show()
+            } else {
+                viewmodel.signUp(email,pass)
+            }
         }
 
         binding.btCancel.setOnClickListener{
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-        }
-    }
-
-
-
-    private fun signUp() {
-        val email: String = binding.etSignupNameLogin.text.toString()
-        val password: String = binding.etSignupPassLogin.text.toString()
-
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Por favor, rellene los campos obligatorios.", Toast.LENGTH_LONG).show()
-        } else {
-            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(this, "Se ha registrado correctamente.", Toast.LENGTH_LONG).show()
-                    val intent = Intent(this, LoginActivity::class.java)
-                    startActivity(intent)
-                } else {
-                    task.exception?.let { e ->
-                        when (e) {
-                            is FirebaseAuthWeakPasswordException -> {
-                                Toast.makeText(this, "La contraseña no es lo suficientemente segura.", Toast.LENGTH_LONG).show()
-                            }
-                            is FirebaseAuthInvalidCredentialsException -> {
-                                Toast.makeText(this, "La dirección de correo electrónico no es válida.", Toast.LENGTH_LONG).show()
-                            }
-                            is FirebaseAuthUserCollisionException -> {
-                                Toast.makeText(this, "Ya existe una cuenta con este correo electrónico.", Toast.LENGTH_LONG).show()
-                            }
-                            else -> {
-                                Toast.makeText(this, "Se produjo un error inesperado: " + e.message, Toast.LENGTH_LONG).show()
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 }
