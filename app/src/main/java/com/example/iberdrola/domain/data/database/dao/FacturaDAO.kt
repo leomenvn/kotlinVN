@@ -6,16 +6,12 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.iberdrola.domain.data.database.entities.FacturaEntity
-import com.example.iberdrola.domain.data.model.Factura
 
 @Dao
 interface FacturaDAO {
 
     @Query("SELECT * FROM TABLA_FACTURAS")
     suspend fun getAllFacturas():List<FacturaEntity>
-
-    @Query("SELECT COUNT(*) FROM TABLA_FACTURAS")
-    suspend fun getFacturasCount(): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllFacturas(facturas:List<FacturaEntity>)
@@ -34,5 +30,8 @@ interface FacturaDAO {
 
     @Query("SELECT * FROM TABLA_FACTURAS WHERE pendiente LIKE :estado AND monto >= :monto AND fechaCreacion BETWEEN :fechaMin AND :fechaMax")
     suspend fun getFiltradas(estado: String, monto: Double, fechaMin: String, fechaMax: String): List<FacturaEntity>
+
+    @Query("SELECT MAX(monto) FROM TABLA_FACTURAS")
+    suspend fun getMayorMonto(): Double
 
 }

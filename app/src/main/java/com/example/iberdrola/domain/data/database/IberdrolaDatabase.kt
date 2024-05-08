@@ -17,7 +17,7 @@ abstract class IberdrolaDatabase : RoomDatabase() {
         @Volatile
         private var _INSTANCE: IberdrolaDatabase? = null
 
-        fun getDatabase(): IberdrolaDatabase {
+        fun getIntance(): IberdrolaDatabase {
             return _INSTANCE ?: synchronized(this) {
                 buildDatabase().also { db -> _INSTANCE = db }
             }

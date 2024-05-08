@@ -1,21 +1,15 @@
 package com.example.iberdrola.domain.usecases
 
 import com.example.iberdrola.domain.data.FacturaRepository
-import com.example.iberdrola.domain.data.model.DetallesResponse
 import com.example.iberdrola.domain.data.model.Factura
 
-class GetFacturasUseCase {
+class GetFacturasUseCase (private val repository: FacturaRepository = FacturaRepository.getInstance()) {
 
-    suspend operator fun invoke(repository: FacturaRepository, mode: Boolean): List<Factura>? {
-        if(mode){
-            return repository.getAllFacturasAPI(false)
+    suspend operator fun invoke(mode: Boolean): List<Factura>? {
+        return if (mode) {
+            repository.getAllFacturasAPI(true)
+        } else {
+            repository.getAllFacturasAPI(false)
         }
-        return repository.getAllFacturasDB()
     }
-
-    suspend fun invokeMock(repository: FacturaRepository): List<Factura>? {
-        return repository.getAllFacturasAPI(true)
-    }
-
-
 }

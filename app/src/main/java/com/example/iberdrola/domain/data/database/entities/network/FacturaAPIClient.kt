@@ -1,4 +1,4 @@
-package com.example.iberdrola.domain.data.database.network
+package com.example.iberdrola.domain.data.database.entities.network
 
 import co.infinum.retromock.meta.Mock
 import co.infinum.retromock.meta.MockResponse
@@ -11,6 +11,11 @@ interface FacturaAPIClient {
 
     @GET("facturas")
     suspend fun getDataFromAPI(): Response<FacturaResponse>
+
+    @Mock
+    @MockResponse(body="apiFacturas.json")
+    @GET("/")
+    suspend fun getDataFromMockAPI(): Response<FacturaResponse>
 
     @Mock
     @MockResponse(body="mockFacturas.json")

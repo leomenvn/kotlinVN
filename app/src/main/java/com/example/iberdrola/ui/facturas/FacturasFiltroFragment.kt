@@ -63,13 +63,16 @@ class FacturasFiltroFragment : Fragment() {
                 btFechaMin.text = fechaMin
             }
         }
-        viewmodel.estado.observe(viewLifecycleOwner){ estado ->
+        viewmodel.estado.observe(viewLifecycleOwner){
             listaCB.forEach { cb ->
-                cb.isChecked = estado[cb.text.toString()] ?: false
+                cb.isChecked = it[cb.text.toString()] ?: false
             }
         }
-        viewmodel.sbEstado.observe(viewLifecycleOwner){ sbEstado ->
-            seekbarMonto.progress = sbEstado
+        viewmodel.sbEstado.observe(viewLifecycleOwner){
+            seekbarMonto.progress = it
+        }
+        viewmodel.sbMax.observe(viewLifecycleOwner){
+
         }
     }
 
@@ -113,9 +116,10 @@ class FacturasFiltroFragment : Fragment() {
         // Aplicar filtro
         binding.btAplicar.setOnClickListener {
             viewmodel.aplicarFiltro()
+            val action = FacturasFiltroFragmentDirections.actionFacturasFiltroFragmentToFacturasListaFragment()
+            findNavController().navigate(action)
         }
 
-        // Aplicar filtro
         binding.btCancelar.setOnClickListener {
             viewmodel.borrarFiltro()
             viewmodel.quitarCB(listaCB)

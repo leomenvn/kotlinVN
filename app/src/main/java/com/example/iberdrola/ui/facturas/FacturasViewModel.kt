@@ -12,12 +12,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.iberdrola.MyApplication
 import com.example.iberdrola.core.RemoteConfigHelper
-import com.example.iberdrola.domain.data.FacturaRepository
-import com.example.iberdrola.domain.data.database.IberdrolaDatabase
 import com.example.iberdrola.domain.data.model.Factura
 import com.example.iberdrola.domain.data.model.Filtro
+import com.example.iberdrola.domain.usecases.GetFacturasBDDUseCase
 import com.example.iberdrola.domain.usecases.GetFacturasUseCase
 import com.example.iberdrola.domain.usecases.GetFiltradasUseCase
+import com.example.iberdrola.domain.usecases.InsertFacturasUseCase
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -25,22 +25,18 @@ import java.util.Locale
 
 class FacturasViewModel: ViewModel() {
 
-    private lateinit var database: IberdrolaDatabase
-    private lateinit var repository: FacturaRepository
     private lateinit var remoteConfig: RemoteConfigHelper
-
-    private val _retromock = MutableLiveData<Boolean>()
-    val retromock: LiveData<Boolean>
-        get() = _retromock
+    private var visibilidad: Boolean = true
+    var retromock: Boolean = false
 
     private val _factModel = MutableLiveData<List<Factura>?>()
     val factModel: LiveData<List<Factura>?>
         get() = _factModel
 
-    private var visibilidad: Boolean = true
-
-    private var getFacturasUseCase = GetFacturasUseCase()
-    private var getFiltradasUseCase = GetFiltradasUseCase()
+    private val getFacturasUseCase = GetFacturasUseCase()
+    private val getFiltradasUseCase = GetFiltradasUseCase()
+    private val getFacturasBDDUseCase = GetFacturasBDDUseCase()
+    private val insertFacturasUseCase = InsertFacturasUseCase()
 
 
     // VARIABLES DEL FILTRADO
@@ -67,15 +63,12 @@ class FacturasViewModel: ViewModel() {
     val sbEstado: LiveData<Int>
         get() = _sbEstado
 
+    private val _sbMax = MutableLiveData<Double>()
+    val sbMax: LiveData<Double>
+        get() = _sbMax
 
 
     init {
-        initRepository()
-    }
-
-    private fun initRepository() {
-        database = IberdrolaDatabase.getDatabase()
-        repository = FacturaRepository(database)
         remote()
         _estado.value = HashMap<String, Boolean>().apply {
             put("Pagada", false)
@@ -86,6 +79,7 @@ class FacturasViewModel: ViewModel() {
         }
         traerFacturas()
     }
+
 
     private fun remote(){
         remoteConfig = RemoteConfigHelper.getInstance()
@@ -102,52 +96,35 @@ class FacturasViewModel: ViewModel() {
     }
 
 
-    private suspend fun llamarAPI() {
-        try {
-            _factModel.value = getFacturasUseCase.invoke(repository, true)
-            _factModel.value?.let { repository.insertAllFacturas(it) }
-        } catch (e: Exception) {
-            Log.e("LISTA VM","Error al obtener las facturas: ${e.message}")
-        }
-    }
 
-
-    private suspend fun llamarBDD(): List<Factura>? {
-        return getFacturasUseCase.invoke(repository, false)
-    }
-
-
-    private suspend fun llamarRetromock(): List<Factura>?{
-        return getFacturasUseCase.invokeMock(repository)
-    }
-
-
-     fun traerFacturas(){
+     private fun traerFacturas(){
          viewModelScope.launch {
+             var aux: List<Factura>? = emptyList()
              if(visibilidad){
-                 if (_retromock.value == true) {
-                     _factModel.value = llamarRetromock()
+                 if (retromock) {
+                     aux = getFacturasUseCase(false)
                  } else {
-                     if (repository.isEmpty()) {
-                         if (isNetworkAvailable(MyApplication.context)) {
-                             llamarAPI()
-                         } else {
-                             _factModel.value = emptyList()
-                         }
-                     } else {
-                         _factModel.value = llamarBDD()
+                     if (isNetworkAvailable(MyApplication.context)) {
+                         aux = getFacturasUseCase(true)
                      }
                  }
+                 _sbMax.value = 250.00
              }else{
-                 _factModel.value = emptyList()
+                _sbMax.value = 0.0
              }
+
+             if (aux != null) {
+                 insertFacturasUseCase.invoke(aux)
+             }
+             _factModel.value = getFacturasBDDUseCase.invoke()
          }
      }
 
 
 
-    fun actualizarMock(boolean: Boolean) {
-        _retromock.value = boolean
+    fun actualizarMock(bool: Boolean) {
+        retromock = bool
+        traerFacturas()
     }
 
 
@@ -171,10 +148,10 @@ class FacturasViewModel: ViewModel() {
 
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
 
-        // Restringir fecha máxima y mínima
         datePicker.datePicker.maxDate = System.currentTimeMillis()
         datePicker.show()
     }
+
 
     private fun fechaBDD(fecha: String): String{
         val aux = fecha.split("/")
@@ -184,17 +161,19 @@ class FacturasViewModel: ViewModel() {
         return "$yy-$mm-$dd"
     }
 
+
     fun escogerMonto(progress: Int) {
-        val aux = progress.toDouble() * 2.5
+        val aux = progress.toDouble()
         val limite = when {
-            aux < 5 -> 5.0
-            aux > 250 -> 250.0
+            aux < 0 -> 0.0
+            aux > 100 -> 100.0
             else -> aux
         }
         _sbEstado.value = progress
         _monto.value = limite
         filtro.monto = limite
     }
+
 
     fun comprobarCB(listaCB: List<CheckBox>) {
         listaCB.forEach { cb ->
@@ -213,30 +192,29 @@ class FacturasViewModel: ViewModel() {
         }
     }
 
+
     fun aplicarFiltro() {
-        var auxEstado = "%"
-        filtro.estado.forEach {
-            if (it.value) {
-                auxEstado += it.key
-            }
-        }
-        auxEstado += "%"
+        val auxEstado = filtro.estado
+        .filter { it.value }
+        .map { it.key }
+        .joinToString("%", "%", "%")
 
         viewModelScope.launch {
             _factModel.value =  getFiltradasUseCase.invoke(
-                repository,
                 auxEstado,
                 filtro.monto,
                 filtro.fechaMin,
                 filtro.fechaMax
             )
         }
+        Log.d("FILTRO", auxEstado)
     }
+
 
     fun borrarFiltro() {
         _fechaMax.value = ""
         _fechaMin.value = ""
-        _monto.value = 5.0
+        _monto.value = 0.0
         _sbEstado.value = 0
         filtro = Filtro()
         traerFacturas()

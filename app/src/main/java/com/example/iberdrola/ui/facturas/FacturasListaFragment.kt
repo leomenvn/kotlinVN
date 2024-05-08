@@ -25,12 +25,13 @@ class FacturasListaFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        // Binding
+
         binding = FragmentFacturasListaBinding.inflate(layoutInflater)
         adapter = FacturasListaAdapter(emptyList())
         rv = binding.facturasRV
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
+        binding.switchLista.isChecked = viewmodel.retromock
 
         return binding.root
     }
@@ -38,8 +39,9 @@ class FacturasListaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        onListener()
+
         onObserve()
+        onListener()
     }
 
 
@@ -49,15 +51,10 @@ class FacturasListaFragment : Fragment() {
                 adapter.updateList(it)
             }
         }
-        viewmodel.retromock.observe(viewLifecycleOwner){
-            viewmodel.traerFacturas()
-        }
     }
 
 
-    // Método auxiliar para los elementos clicables
     private fun onListener() {
-        // Vincular icono de menu con MaterialToolBar
         binding.mtbFacturas.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menuFacturasLista -> {
