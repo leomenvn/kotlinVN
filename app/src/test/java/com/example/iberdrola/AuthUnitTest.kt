@@ -1,5 +1,9 @@
 package com.example.iberdrola
 
+import com.example.iberdrola.domain.usecases.auth.GetCurrentUserUseCase
+import com.example.iberdrola.domain.usecases.auth.LogInUseCase
+import com.example.iberdrola.domain.usecases.auth.ResetPassUseCase
+import com.example.iberdrola.domain.usecases.auth.SignUpUseCase
 import com.google.firebase.auth.FirebaseAuth
 import org.junit.Assert.*
 import org.junit.Before
@@ -9,30 +13,26 @@ import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
+/*
 class AuthUnitTest {
- /*
-    @Mock
-    private lateinit var mockAuth: FirebaseAuth
-    private lateinit var auth: AuthUnitTest
 
-    @Before
-    fun setup() {
-        MockitoAnnotations.initMocks(this)
-        auth = AuthUnitTest(mockAuth)
-    }
+    private val logInUseCase = LogInUseCase()
+    private val signUpUseCase = SignUpUseCase()
+    private val resetPassUseCase = ResetPassUseCase()
+    private val signOutUseCase = LogInUseCase()
+    private val getCurrentUserUseCase = GetCurrentUserUseCase()
 
     @Test
-    fun logInValido() {
-        val email = "test@example.com"
-        val password = "password"
-        val callback: (Boolean, String?) -> Unit = { success, _ ->
-            assertEquals(true, success)
-        }
+    suspend fun `given valid credentials, when invoke signInWithEmailAndPassword, then return welcome message`() =
+            // Arrange
+            val email = "admin@admin.com"
+            val password = "admin123-"
+            val expected = "Bienvenido, $email"
 
-        // Simulate successful authentication
-        `when`(mockAuth.signInWithEmailAndPassword(email, password)).thenReturn(mock())
+            // Act
+            val actual = logInUseCase.invoke(email, password)
 
-    }
+            // Assert
+            assertEquals(expected, actual)
 
-  */
-}
+}*/
