@@ -4,15 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.iberdrola.R
 import com.example.iberdrola.core.RemoteConfigHelper
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.example.iberdrola.domain.usecases.auth.GetCurrentUserUseCase
+import com.example.iberdrola.domain.usecases.auth.SignOutUseCase
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel: ViewModel() {
 
-    val auth = FirebaseAuth.getInstance()
     private var remoteConfig: RemoteConfigHelper = RemoteConfigHelper.getInstance()
 
     private val _visibilidadLista = MutableLiveData<Boolean>()
@@ -23,12 +22,28 @@ class MainActivityViewModel: ViewModel() {
     val modo: MutableLiveData<Boolean>
         get() = _modo
 
+    private val _user = MutableLiveData<FirebaseUser>()
+    val user: MutableLiveData<FirebaseUser>
+        get() = _user
+
+    private val getCurrentUser = GetCurrentUserUseCase()
+    private val signOutUseCase = SignOutUseCase()
+
+    init {
+        _user.value = getCurrentUser.invoke()
+    }
+
     fun onCreate(){
         viewModelScope.launch{
             remoteConfig.fetch()
             _visibilidadLista.value = remoteConfig.getBoolean("listaVista")
             _modo.value = remoteConfig.getBoolean("temas")
         }
+    }
+
+    fun signOut() {
+        signOutUseCase.invoke()
+        _user.value = getCurrentUser.invoke()
     }
 }
 

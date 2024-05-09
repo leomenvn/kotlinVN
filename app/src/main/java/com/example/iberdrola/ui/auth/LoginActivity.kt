@@ -37,11 +37,11 @@ class LoginActivity : AppCompatActivity() {
 
 
     private fun onObserve() {
-        viewmodel.estadoLog.observe(this) {
+        viewmodel.estado.observe(this) {
             Toast.makeText(this, it, Toast.LENGTH_LONG).show()
         }
 
-        viewmodel.usuario.observe(this) {
+        viewmodel.user.observe(this) {
             if(it != null){
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)

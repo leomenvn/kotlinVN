@@ -14,7 +14,6 @@ import com.example.iberdrola.ui.auth.LoginActivity
 import com.example.iberdrola.ui.facturas.FacturasActivity
 import com.example.iberdrola.ui.navegacion.NavegacionActivity
 import com.example.iberdrola.ui.smartsolar.SmartSolarActivity
-import com.google.firebase.auth.FirebaseAuth
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,7 +26,6 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        // Mejora visual
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         setContentView(binding.root)
@@ -38,12 +36,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         onListener()
-        viewmodel.onCreate()
     }
 
 
     private fun onListener() {
-        binding.tvBienvenido.text = "Bievenido, ${viewmodel.auth.currentUser?.email}"
 
         binding.ivPractica1.setOnClickListener{
             val intent = Intent(this, FacturasActivity::class.java)
@@ -61,9 +57,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btCerrarSesion.setOnClickListener{
-            viewmodel.auth.signOut()
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            viewmodel.signOut()
         }
 
         viewmodel.visibilidadLista.observe(this){ aux ->
@@ -78,7 +72,16 @@ class MainActivity : AppCompatActivity() {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 binding.swTema.isChecked = false
             }
+        }
 
+        viewmodel.user.observe(this){
+            if(it == null){
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }else{
+                val text = "Bievenido, "+ it.email
+                binding.tvBienvenido.text = text
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.iberdrola.domain.usecases
+package com.example.iberdrola.domain.usecases.facturas
 
 import com.example.iberdrola.domain.data.FacturaRepository
 import com.example.iberdrola.domain.data.model.Factura

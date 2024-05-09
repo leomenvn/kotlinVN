@@ -1,5 +1,6 @@
 package com.example.iberdrola.ui.facturas
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -28,6 +29,7 @@ class FacturasFiltroFragment : Fragment() {
     private val viewmodel: FacturasViewModel by activityViewModels()
 
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentFacturasFiltroBinding.inflate(layoutInflater)
         btFechaMin = binding.btFechaDesde
@@ -35,6 +37,7 @@ class FacturasFiltroFragment : Fragment() {
         seekbarMonto = binding.sbImporte
         tvMonto = binding.tvRango
         listaCB = listOf(binding.cbPagadas, binding.cbAnuladas, binding.cbCuotafija, binding.cbPendientes, binding.cbPlanPago)
+        binding.tvRangoMAX.text = String.format("%.1f", viewmodel.sbMax)+"\u20AC"
 
         return binding.root
     }
@@ -71,13 +74,10 @@ class FacturasFiltroFragment : Fragment() {
         viewmodel.sbEstado.observe(viewLifecycleOwner){
             seekbarMonto.progress = it
         }
-        viewmodel.sbMax.observe(viewLifecycleOwner){
-
-        }
     }
 
     private fun onListener() {
-        // Vincular icono de menu con MaterialToolBar
+
         binding.mtbFactFilt.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menuFacturasFiltro -> {
@@ -89,7 +89,7 @@ class FacturasFiltroFragment : Fragment() {
             }
         }
 
-        // Botones fechas
+
         btFechaMin.setOnClickListener{
             viewmodel.escogerFecha(requireContext(), true)
         }
@@ -99,7 +99,6 @@ class FacturasFiltroFragment : Fragment() {
         }
 
 
-        // Seekbar
         seekbarMonto.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 viewmodel.escogerMonto(progress)
@@ -110,10 +109,10 @@ class FacturasFiltroFragment : Fragment() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
-        // CheckBoxes
+
         viewmodel.comprobarCB(listaCB)
 
-        // Aplicar filtro
+
         binding.btAplicar.setOnClickListener {
             viewmodel.aplicarFiltro()
             val action = FacturasFiltroFragmentDirections.actionFacturasFiltroFragmentToFacturasListaFragment()

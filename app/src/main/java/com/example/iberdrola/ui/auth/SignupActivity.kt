@@ -11,10 +11,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.iberdrola.R
 import com.example.iberdrola.databinding.ActivitySignupBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 
 class SignupActivity : AppCompatActivity() {
 
@@ -40,9 +36,9 @@ class SignupActivity : AppCompatActivity() {
 
 
     private fun onObserve() {
-        viewmodel.estadoSign.observe(this) {
+        viewmodel.estado.observe(this) {
             Toast.makeText(this, it, Toast.LENGTH_LONG).show()
-            if(it == "CORRECTO"){
+            if(it == "Se ha registrado correctamente."){
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }

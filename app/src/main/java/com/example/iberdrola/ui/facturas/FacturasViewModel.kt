@@ -14,10 +14,11 @@ import com.example.iberdrola.MyApplication
 import com.example.iberdrola.core.RemoteConfigHelper
 import com.example.iberdrola.domain.data.model.Factura
 import com.example.iberdrola.domain.data.model.Filtro
-import com.example.iberdrola.domain.usecases.GetFacturasBDDUseCase
-import com.example.iberdrola.domain.usecases.GetFacturasUseCase
-import com.example.iberdrola.domain.usecases.GetFiltradasUseCase
-import com.example.iberdrola.domain.usecases.InsertFacturasUseCase
+import com.example.iberdrola.domain.usecases.facturas.GetFacturasBDDUseCase
+import com.example.iberdrola.domain.usecases.facturas.GetFacturasUseCase
+import com.example.iberdrola.domain.usecases.facturas.GetFiltradasUseCase
+import com.example.iberdrola.domain.usecases.facturas.GetMayorMontoUseCase
+import com.example.iberdrola.domain.usecases.facturas.InsertFacturasUseCase
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -37,6 +38,7 @@ class FacturasViewModel: ViewModel() {
     private val getFiltradasUseCase = GetFiltradasUseCase()
     private val getFacturasBDDUseCase = GetFacturasBDDUseCase()
     private val insertFacturasUseCase = InsertFacturasUseCase()
+    private val getMayorMontoUseCase = GetMayorMontoUseCase()
 
 
     // VARIABLES DEL FILTRADO
@@ -63,9 +65,7 @@ class FacturasViewModel: ViewModel() {
     val sbEstado: LiveData<Int>
         get() = _sbEstado
 
-    private val _sbMax = MutableLiveData<Double>()
-    val sbMax: LiveData<Double>
-        get() = _sbMax
+    var sbMax: Double = 100.0
 
 
     init {
@@ -100,6 +100,7 @@ class FacturasViewModel: ViewModel() {
      private fun traerFacturas(){
          viewModelScope.launch {
              var aux: List<Factura>? = emptyList()
+
              if(visibilidad){
                  if (retromock) {
                      aux = getFacturasUseCase(false)
@@ -108,18 +109,17 @@ class FacturasViewModel: ViewModel() {
                          aux = getFacturasUseCase(true)
                      }
                  }
-                 _sbMax.value = 250.00
              }else{
-                _sbMax.value = 0.0
+                sbMax = 0.0
              }
 
              if (aux != null) {
                  insertFacturasUseCase.invoke(aux)
              }
              _factModel.value = getFacturasBDDUseCase.invoke()
+             sbMax = getMayorMontoUseCase.invoke()
          }
      }
-
 
 
     fun actualizarMock(bool: Boolean) {
@@ -163,15 +163,10 @@ class FacturasViewModel: ViewModel() {
 
 
     fun escogerMonto(progress: Int) {
-        val aux = progress.toDouble()
-        val limite = when {
-            aux < 0 -> 0.0
-            aux > 100 -> 100.0
-            else -> aux
-        }
+        val pro = progress.coerceIn(0, sbMax.toInt()).toDouble()
         _sbEstado.value = progress
-        _monto.value = limite
-        filtro.monto = limite
+        _monto.value = pro
+        filtro.monto = pro
     }
 
 
@@ -216,6 +211,7 @@ class FacturasViewModel: ViewModel() {
         _fechaMin.value = ""
         _monto.value = 0.0
         _sbEstado.value = 0
+        sbMax = 100.0
         filtro = Filtro()
         traerFacturas()
     }

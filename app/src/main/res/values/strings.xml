@@ -47,9 +47,9 @@
     <string name="hasta">Hasta:</string>
     <string name="fechaFiltro">Día / Mes/ Año</string>
     <string name="importeFiltro">Por un importe</string>
-    <string name="rangoImporte">5€ - 250€</string>
-    <string name="filtroMIN">5€</string>
-    <string name="filtroMAX">250€</string>
+    <string name="rangoImporte">0.0</string>
+    <string name="filtroMIN">0€</string>
+    <string name="filtroMAX">100€</string>
     <string name="estadoFiltro">Por estado</string>
     <string name="pagadas">Pagada</string>
     <string name="anuladas">Anuladas</string>
@@ -61,8 +61,6 @@
     <string name="fechafactura">Dia / Mes / Año</string>
     <string name="montofactura">68,54€</string>
     <string name="filters">Filters</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="lista">Lista</string>
     <string name="cerrarSes">CERRAR SESIÓN</string>
     <string name="signupText">Indica tus datos para poder registrarte en nuestra aplicación.</string>

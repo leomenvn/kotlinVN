@@ -11,9 +11,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.iberdrola.R
 import com.example.iberdrola.databinding.ActivityResetPasswordBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 class ResetPasswordActivity : AppCompatActivity() {
 
@@ -39,7 +36,7 @@ class ResetPasswordActivity : AppCompatActivity() {
 
 
     private fun onObserve(){
-        viewmodel.estadoReset.observe(this) {
+        viewmodel.estado.observe(this) {
             Toast.makeText(this, it, Toast.LENGTH_LONG).show()
         }
     }
