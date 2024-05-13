@@ -49,7 +49,7 @@ class SignupActivity : AppCompatActivity() {
     private fun onListener() {
         binding.btSignup.setOnClickListener{
             val email: String = binding.etSignupNameLogin.text.toString()
-            val pass: String = binding.etSignupPassLogin.text.toString()
+            val pass: String = binding.etPassLogin.text.toString()
 
             if (TextUtils.isEmpty(email) || TextUtils.isEmpty(pass)) {
                 Toast.makeText(this, "Por favor, rellene los campos obligatorios.", Toast.LENGTH_LONG).show()

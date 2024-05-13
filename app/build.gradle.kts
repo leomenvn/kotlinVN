@@ -62,10 +62,10 @@ dependencies {
     implementation(libs.firebase.config.ktx)
     implementation(libs.firebase.analytics.ktx)
 
-
-    // Test Unitarios
+    // Test Unitarios y Mockito
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
