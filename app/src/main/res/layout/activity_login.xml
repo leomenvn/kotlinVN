@@ -57,7 +57,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/cb_recordar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/checkpass"
@@ -79,7 +79,7 @@
         android:textSize="15sp"
         android:layout_marginStart="10dp"
         android:textColor="@color/red"
-        app:layout_constraintTop_toBottomOf="@id/checkBox"
+        app:layout_constraintTop_toBottomOf="@id/cb_recordar"
         app:layout_constraintStart_toStartOf="parent"
         />
 

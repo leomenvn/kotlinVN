@@ -20,35 +20,43 @@
 
 
     <TextView
-        android:id="@+id/tv_signup"
-        app:layout_constraintTop_toBottomOf="@id/iv_iberSignup"
+        android:id="@+id/tv_info"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:text="@string/signupText"
         android:textSize="20sp"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:gravity="center"
-    />
-
-    <EditText
-        android:id="@+id/et_signup_NameLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="15"
-        android:inputType="text"
-        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_signup"
-        android:hint="@string/usuario_signup"
-        android:autofillHints=""
+        app:layout_constraintTop_toBottomOf="@id/iv_iberSignup"
+        android:layout_width="wrap_content"
         />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/et_signup_passLogin2"
+        android:id="@+id/til_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="15"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@id/tv_info"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+    <EditText
+        android:id="@+id/et_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/usuario"
+        android:inputType="text"
+        android:autofillHints="" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_pass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="15"
@@ -56,19 +64,44 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@id/et_signup_NameLogin"
+        app:layout_constraintTop_toBottomOf="@id/til_user"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:passwordToggleEnabled="true"
         >
 
     <EditText
-        android:id="@+id/et_passLogin"
+        android:id="@+id/et_pass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/pass"
         android:inputType="textPassword"
         android:autofillHints="" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_pass2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="15"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@id/til_pass"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:passwordToggleEnabled="true"
+        >
+
+        <EditText
+            android:id="@+id/et_pass2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/confirmarPass"
+            android:inputType="textPassword"
+            android:autofillHints="" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -80,7 +113,7 @@
         android:layout_height="wrap_content"
         android:text="@string/register"
         android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/et_signup_passLogin2"
+        app:layout_constraintTop_toBottomOf="@id/til_pass2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />

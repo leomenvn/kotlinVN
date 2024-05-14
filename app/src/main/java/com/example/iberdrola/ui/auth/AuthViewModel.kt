@@ -1,5 +1,6 @@
 package com.example.iberdrola.ui.auth
 
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,20 +33,20 @@ class AuthViewModel: ViewModel() {
 
     fun logIn(email: String, pass: String){
         viewModelScope.launch {
-            _estado.value = logInUseCase.invoke(email, pass)
+            _estado.value = logInUseCase(email, pass)
             _user.value = getCurrentUserUseCase.invoke()
         }
     }
 
     fun signUp(email: String, pass: String) {
         viewModelScope.launch {
-            _estado.value = signUpUseCase.invoke(email, pass)
+            _estado.value = signUpUseCase(email, pass)
         }
     }
 
     fun resetPass(email: String) {
         viewModelScope.launch {
-            _estado.value = resetPassUseCase.invoke(email)
+            _estado.value = resetPassUseCase(email)
         }
     }
 }

@@ -48,12 +48,15 @@ class SignupActivity : AppCompatActivity() {
 
     private fun onListener() {
         binding.btSignup.setOnClickListener{
-            val email: String = binding.etSignupNameLogin.text.toString()
-            val pass: String = binding.etPassLogin.text.toString()
+            val email: String = binding.etUser.text.toString()
+            val pass: String = binding.etPass.text.toString()
+            val pass2: String = binding.etPass2.text.toString()
 
-            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(pass)) {
+            if (email.isEmpty() || pass.isEmpty() || pass2.isEmpty()) {
                 Toast.makeText(this, "Por favor, rellene los campos obligatorios.", Toast.LENGTH_LONG).show()
-            } else {
+            } else if(pass != pass2){
+                Toast.makeText(this, "Las contraseñas no coinciden.", Toast.LENGTH_LONG).show()
+            } else{
                 viewmodel.signUp(email,pass)
             }
         }
