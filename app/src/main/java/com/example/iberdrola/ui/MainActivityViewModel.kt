@@ -31,10 +31,7 @@ class MainActivityViewModel: ViewModel() {
 
     init {
         _user.value = getCurrentUser.invoke()
-    }
-
-    fun onCreate(){
-        viewModelScope.launch{
+        viewModelScope.launch {
             remoteConfig.fetch()
             _visibilidadLista.value = remoteConfig.getBoolean("listaVista")
             _modo.value = remoteConfig.getBoolean("temas")

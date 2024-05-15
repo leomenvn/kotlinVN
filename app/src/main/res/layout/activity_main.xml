@@ -14,7 +14,7 @@
         android:layout_marginTop="10dp"
         android:textSize="20sp"
         android:text="@string/bienvenido"
-        android:textColor="@color/blue"
+        android:textColor="@color/green"
         android:layout_marginStart="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

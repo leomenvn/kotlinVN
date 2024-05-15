@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/menuFacturasLista"
         android:title="@string/lista"
-        android:icon="@drawable/filtericon"
+        android:icon="@drawable/filter_icon"
         app:showAsAction="ifRoom"
         />
 </menu>

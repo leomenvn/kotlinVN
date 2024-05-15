@@ -2,6 +2,7 @@ package com.example.iberdrola.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity() {
             binding.swVerLista.isChecked = aux
         }
 
-        viewmodel.modo.observe(this){modo ->
+        viewmodel.modo.observe(this){ modo ->
             if(modo){
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 binding.swTema.isChecked = true

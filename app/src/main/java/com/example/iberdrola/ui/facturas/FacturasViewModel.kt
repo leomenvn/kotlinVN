@@ -82,9 +82,11 @@ class FacturasViewModel: ViewModel() {
 
 
     private fun remote(){
-        remoteConfig = RemoteConfigHelper.getInstance()
-        remoteConfig.fetch()
-        visibilidad = remoteConfig.getBoolean("listaVista")
+        viewModelScope.launch {
+            remoteConfig = RemoteConfigHelper.getInstance()
+            remoteConfig.fetch()
+            visibilidad = remoteConfig.getBoolean("listaVista")
+        }
     }
 
 
@@ -109,15 +111,14 @@ class FacturasViewModel: ViewModel() {
                          aux = getFacturasUseCase(true)
                      }
                  }
+                 if (aux != null) {
+                     insertFacturasUseCase.invoke(aux)
+                 }
+                 sbMax = getMayorMontoUseCase.invoke()
              }else{
                 sbMax = 0.0
              }
-
-             if (aux != null) {
-                 insertFacturasUseCase.invoke(aux)
-             }
              _factModel.value = getFacturasBDDUseCase.invoke()
-             sbMax = getMayorMontoUseCase.invoke()
          }
      }
 

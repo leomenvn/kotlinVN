@@ -1,11 +1,14 @@
 package com.example.iberdrola.ui.facturas
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,9 +28,8 @@ class FacturasListaFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-
         binding = FragmentFacturasListaBinding.inflate(layoutInflater)
-        adapter = FacturasListaAdapter(emptyList())
+        adapter = FacturasListaAdapter(emptyList()) { onItemSelected() }
         rv = binding.facturasRV
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
@@ -74,5 +76,16 @@ class FacturasListaFragment : Fragment() {
         binding.switchLista.setOnCheckedChangeListener { _, isChecked ->
             viewmodel.actualizarMock(isChecked)
         }
+    }
+
+    private fun onItemSelected() {
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.popup_facturas)
+
+        val closeButton = dialog.findViewById<Button>(R.id.bt_popup)
+        closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 }

@@ -21,12 +21,13 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/NSVfiltro"
             android:layout_width="match_parent"
-            android:layout_height="700dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/bt_aplicar"
             app:layout_constraintTop_toBottomOf="@id/mtb_factFilt">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="0dp">
 
                 <TextView
                     android:id="@+id/tv_filtrar"
@@ -261,6 +262,7 @@
             android:layout_height="wrap_content"
             android:text="@string/aplicar"
             android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toTopOf="@id/bt_cancelar"
             app:layout_constraintTop_toBottomOf="@id/NSVfiltro"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -272,6 +274,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancelarFiltro"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bt_aplicar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

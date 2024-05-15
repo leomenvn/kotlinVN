@@ -52,8 +52,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="@string/fechafactura"
-        android:clickable="true"
-        android:focusable="true"
         />
 
     <View
