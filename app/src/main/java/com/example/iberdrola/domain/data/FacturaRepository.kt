@@ -1,11 +1,11 @@
 package com.example.iberdrola.domain.data
 
 import com.example.iberdrola.domain.data.database.IberdrolaDatabase
-import com.example.iberdrola.domain.data.database.dao.FacturaDAO
-import com.example.iberdrola.domain.data.database.entities.FacturaEntity
+import com.example.iberdrola.domain.data.database.FacturaDAO
+import com.example.iberdrola.domain.data.database.FacturaEntity
 import com.example.iberdrola.domain.data.model.Factura
-import com.example.iberdrola.domain.data.database.entities.network.FacturaService
-import com.example.iberdrola.domain.data.model.DetallesResponse
+import com.example.iberdrola.data_retrofit.FacturaService
+import com.example.iberdrola.data_retrofit.response.DetallesResponse
 
 class FacturaRepository (database: IberdrolaDatabase = IberdrolaDatabase.getIntance()) {
 
@@ -44,8 +44,22 @@ class FacturaRepository (database: IberdrolaDatabase = IberdrolaDatabase.getInta
     }
 
 
-    suspend fun getFiltradas(estado: String, monto: Double, fechaMin: String, fechaMax: String): List<Factura>{
-        return entityToModel(dao.getFiltradas(estado, monto, fechaMin, fechaMax))
+    suspend fun getFiltradas(estado: HashMap<String, Boolean>, monto: Double, fechaMin: String, fechaMax: String): List<Factura>{
+        var b = false
+        val aux = mutableListOf<String>()
+        estado.forEach { (key, value) ->
+            if (value) {
+                aux.add(key)
+                b = true
+            } else {
+                aux.add("''")
+            }
+        }
+        return if(b){
+            entityToModel(dao.getAllFiltradas(aux[0], aux[1], aux[2], aux[3], aux[4], monto, fechaMin, fechaMax))
+        }else{
+            entityToModel(dao.getFiltradas(monto, fechaMin, fechaMax))
+        }
     }
 
 

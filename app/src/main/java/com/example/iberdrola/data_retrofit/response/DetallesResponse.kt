@@ -1,4 +1,4 @@
-package com.example.iberdrola.domain.data.model
+package com.example.iberdrola.data_retrofit.response
 
 data class DetallesResponse (
     var cau: String,

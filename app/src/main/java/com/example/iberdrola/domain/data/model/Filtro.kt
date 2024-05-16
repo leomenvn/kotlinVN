@@ -12,5 +12,5 @@ data class Filtro(
         put("Cuota fija", false)
         put("Plan de pago", false)
         put("Pendiente de pago", false)
-    }, 5.0)
+    }, 0.0)
 }

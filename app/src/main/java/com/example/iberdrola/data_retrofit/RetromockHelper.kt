@@ -1,7 +1,7 @@
-package com.example.iberdrola.core
+package com.example.iberdrola.data_retrofit
 
 import co.infinum.retromock.Retromock
-import com.example.iberdrola.data.RetrofitHelper
+import com.example.iberdrola.core.ResourceBodyFactory
 
 class RetromockHelper private constructor() {
 

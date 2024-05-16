@@ -1,7 +1,7 @@
 package com.example.iberdrola
 
-import com.example.iberdrola.domain.data.database.dao.FacturaDAO
-import com.example.iberdrola.domain.data.database.entities.FacturaEntity
+import com.example.iberdrola.domain.data.database.FacturaDAO
+import com.example.iberdrola.domain.data.database.FacturaEntity
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertTrue
 import org.junit.Before

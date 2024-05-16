@@ -1,7 +1,7 @@
 package com.example.iberdrola.domain.usecases
 
 import com.example.iberdrola.domain.data.FacturaRepository
-import com.example.iberdrola.domain.data.model.DetallesResponse
+import com.example.iberdrola.data_retrofit.response.DetallesResponse
 
 class GetDetallesUseCase (private val repository: FacturaRepository = FacturaRepository.getInstance()){
 

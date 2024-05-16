@@ -83,9 +83,11 @@ class FacturasViewModel: ViewModel() {
 
     private fun remote(){
         viewModelScope.launch {
-            remoteConfig = RemoteConfigHelper.getInstance()
-            remoteConfig.fetch()
-            visibilidad = remoteConfig.getBoolean("listaVista")
+            if (isNetworkAvailable(MyApplication.context)) {
+                remoteConfig = RemoteConfigHelper.getInstance()
+                remoteConfig.fetch()
+                visibilidad = remoteConfig.getBoolean("listaVista")
+            }
         }
     }
 
@@ -190,20 +192,15 @@ class FacturasViewModel: ViewModel() {
 
 
     fun aplicarFiltro() {
-        val auxEstado = filtro.estado
-        .filter { it.value }
-        .map { it.key }
-        .joinToString("%", "%", "%")
-
         viewModelScope.launch {
-            _factModel.value =  getFiltradasUseCase.invoke(
-                auxEstado,
+            Log.d("Filtro", filtro.toString())
+            _factModel.value =  getFiltradasUseCase(
+                filtro.estado,
                 filtro.monto,
                 filtro.fechaMin,
                 filtro.fechaMax
             )
         }
-        Log.d("FILTRO", auxEstado)
     }
 
 

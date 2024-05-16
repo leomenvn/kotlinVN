@@ -1,9 +1,9 @@
-package com.example.iberdrola.domain.data.database.entities.network
+package com.example.iberdrola.data_retrofit
 
 import co.infinum.retromock.meta.Mock
 import co.infinum.retromock.meta.MockResponse
-import com.example.iberdrola.domain.data.model.DetallesResponse
-import com.example.iberdrola.domain.data.model.FacturaResponse
+import com.example.iberdrola.data_retrofit.response.DetallesResponse
+import com.example.iberdrola.data_retrofit.response.FacturaResponse
 import retrofit2.Response
 import retrofit2.http.*
 

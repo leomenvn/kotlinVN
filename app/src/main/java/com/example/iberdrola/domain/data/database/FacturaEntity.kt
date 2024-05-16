@@ -1,4 +1,4 @@
-package com.example.iberdrola.domain.data.database.entities
+package com.example.iberdrola.domain.data.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
