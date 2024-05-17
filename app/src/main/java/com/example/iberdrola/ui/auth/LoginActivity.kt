@@ -47,6 +47,18 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+
+        viewmodel.email.observe(this) {
+            binding.etNameLogin.setText(it)
+        }
+
+        viewmodel.pass.observe(this){
+            binding.etPassLogin.setText(it)
+        }
+
+        viewmodel.cb.observe(this){
+            binding.cbRecordar.isChecked = it
+        }
     }
 
 
@@ -57,6 +69,7 @@ class LoginActivity : AppCompatActivity() {
             if(TextUtils.isEmpty(email) || TextUtils.isEmpty(pass)) {
                 Toast.makeText(this, "Por favor, rellene los campos obligatorios.", Toast.LENGTH_LONG).show()
             }else{
+                viewmodel.guardarCred(email, pass, binding.cbRecordar.isChecked)
                 viewmodel.logIn(email, pass)
             }
         }
@@ -71,4 +84,5 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
 }
