@@ -144,7 +144,19 @@
         android:text="@string/alternar_tema"
         android:layout_marginStart="20dp"
         android:textSize="20sp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="70dp"
+        android:clickable="false"
+        app:layout_constraintTop_toBottomOf="@id/tvAdmin"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/swKtor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/alternar_ktor"
+        android:layout_marginStart="20dp"
+        android:textSize="20sp"
+        android:layout_marginTop="130dp"
         android:clickable="false"
         app:layout_constraintTop_toBottomOf="@id/tvAdmin"
         app:layout_constraintStart_toStartOf="parent"/>

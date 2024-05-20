@@ -2,7 +2,6 @@ package com.example.iberdrola.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -63,6 +62,10 @@ class MainActivity : AppCompatActivity() {
 
         viewmodel.visibilidadLista.observe(this){ aux ->
             binding.swVerLista.isChecked = aux
+        }
+
+        viewmodel.ktor.observe(this){ aux ->
+            binding.swKtor.isChecked = aux
         }
 
         viewmodel.modo.observe(this){ modo ->

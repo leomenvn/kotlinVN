@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.iberdrola.core.RemoteConfigHelper
+import com.example.iberdrola.data_ktor.KtorHelper
 import com.example.iberdrola.domain.usecases.auth.GetCurrentUserUseCase
 import com.example.iberdrola.domain.usecases.auth.SignOutUseCase
 import com.google.firebase.auth.FirebaseUser
@@ -26,6 +27,11 @@ class MainActivityViewModel: ViewModel() {
     val user: MutableLiveData<FirebaseUser>
         get() = _user
 
+    private val _ktor = MutableLiveData<Boolean>()
+    val ktor: MutableLiveData<Boolean>
+        get() = _ktor
+
+
     private val getCurrentUser = GetCurrentUserUseCase()
     private val signOutUseCase = SignOutUseCase()
 
@@ -35,6 +41,7 @@ class MainActivityViewModel: ViewModel() {
             remoteConfig.fetch()
             _visibilidadLista.value = remoteConfig.getBoolean("listaVista")
             _modo.value = remoteConfig.getBoolean("temas")
+            _ktor.value = remoteConfig.getBoolean("ktor")
         }
     }
 
@@ -42,5 +49,6 @@ class MainActivityViewModel: ViewModel() {
         signOutUseCase.invoke()
         _user.value = getCurrentUser.invoke()
     }
+
 }
 

@@ -76,5 +76,6 @@
     <string name="swLista">Permitir vista de facturas</string>
     <string name="alternar_tema">Alternar tema</string>
     <string name="confirmarPass">Confirmar contraseña:</string>
+    <string name="alternar_ktor">Ktor</string>
 
 </resources>

@@ -5,6 +5,7 @@ plugins {
     id("com.google.gms.google-services")
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
+    kotlin("plugin.serialization") version "1.9.0"
 }
 
 android {
@@ -93,5 +94,11 @@ dependencies {
     // System UI Controller
     implementation(libs.accompanist.systemuicontroller)
 
-    //
+    // Ktor
+    implementation("io.ktor:ktor-client-core:2.3.11")
+    implementation("io.ktor:ktor-client-cio:2.3.11")
+    implementation("io.ktor:ktor-client-content-negotiation:2.3.11")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.11")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json")
+    implementation("io.ktor:ktor-client-logging:2.3.11")
 }
