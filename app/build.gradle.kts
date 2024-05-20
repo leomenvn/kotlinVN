@@ -94,6 +94,7 @@ dependencies {
     // System UI Controller
     implementation(libs.accompanist.systemuicontroller)
 
+<<<<<<< HEAD
     // Ktor
     implementation("io.ktor:ktor-client-core:2.3.11")
     implementation("io.ktor:ktor-client-cio:2.3.11")
@@ -101,4 +102,8 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.11")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json")
     implementation("io.ktor:ktor-client-logging:2.3.11")
+=======
+    // Criptografia
+    implementation("androidx.security:security-crypto-ktx:1.1.0-alpha06")
+>>>>>>> 3b7211cd8df547bf6498dd8af7b726a21660c42e
 }
