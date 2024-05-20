@@ -93,5 +93,6 @@ dependencies {
     // System UI Controller
     implementation(libs.accompanist.systemuicontroller)
 
-    //
+    // Criptografia
+    implementation("androidx.security:security-crypto-ktx:1.1.0-alpha06")
 }
