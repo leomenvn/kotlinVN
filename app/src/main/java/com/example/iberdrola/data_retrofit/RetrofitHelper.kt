@@ -5,6 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitHelper private constructor() {
 
+    /*
     companion object {
         @Volatile
         private var instance: Retrofit? = null
@@ -16,4 +17,5 @@ class RetrofitHelper private constructor() {
                 .build()
         }
     }
+    */
 }

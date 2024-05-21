@@ -1,15 +1,15 @@
 package com.example.iberdrola.data_retrofit
 
 import android.util.Log
+import co.infinum.retromock.Retromock
 import com.example.iberdrola.data_retrofit.response.DetallesResponse
 import com.example.iberdrola.data_retrofit.response.FacturaResponse
 import com.example.iberdrola.domain.data.model.Factura
 import retrofit2.Response
+import retrofit2.Retrofit
 
-class FacturaService {
-
-    private val retrofit = RetrofitHelper.getInstance()
-    private val retromock = RetromockHelper.getIntance()
+class FacturaService (private val retrofit: Retrofit,
+                      private val retromock: Retromock){
 
 
     suspend fun getDataAPI(mode: Boolean): List<Factura>? {

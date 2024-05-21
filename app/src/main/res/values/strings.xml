@@ -81,6 +81,7 @@
     <string name="retromock">Retromock</string>
     <string name="retrofit">Retrofit</string>
     <string name="correo">Correo:</string>
+    <string name="volver">Volver a inicio</string>
 
 
 </resources>

@@ -1,5 +1,7 @@
 package com.example.iberdrola.ui.auth
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,9 +15,9 @@ import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import com.example.iberdrola.MyApplication
 
-class AuthViewModel: ViewModel() {
+@SuppressLint("StaticFieldLeak")
+class AuthViewModel(private val context: Context): ViewModel() {
 
     private val _estado = MutableLiveData<String>()
     val estado: LiveData<String>
@@ -76,10 +78,10 @@ class AuthViewModel: ViewModel() {
     }
 
     private fun criptoBuilder(): SharedPreferences {
-        val masterKeyAlias = MasterKey.Builder(MyApplication.context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+        val masterKeyAlias = MasterKey.Builder(context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build()
         return EncryptedSharedPreferences.create(
-            MyApplication.context,
+            context,
             "secure_login",
             masterKeyAlias,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,

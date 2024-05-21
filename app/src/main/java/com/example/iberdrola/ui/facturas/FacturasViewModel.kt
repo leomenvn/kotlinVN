@@ -1,5 +1,6 @@
 package com.example.iberdrola.ui.facturas
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Context
 import android.net.ConnectivityManager
@@ -10,23 +11,25 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.iberdrola.MyApplication
 import com.example.iberdrola.core.RemoteConfigHelper
+import com.example.iberdrola.domain.data.FacturaRepository
 import com.example.iberdrola.domain.data.model.Factura
 import com.example.iberdrola.domain.data.model.Filtro
 import com.example.iberdrola.domain.usecases.facturas.GetFacturasBDDUseCase
 import com.example.iberdrola.domain.usecases.facturas.GetFacturasUseCase
 import com.example.iberdrola.domain.usecases.facturas.GetFiltradasUseCase
-import com.example.iberdrola.domain.usecases.facturas.GetMayorMontoUseCase
 import com.example.iberdrola.domain.usecases.facturas.InsertFacturasUseCase
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import com.example.iberdrola.domain.usecases.facturas.GetMayorMontoUseCase
 
-class FacturasViewModel: ViewModel() {
+@SuppressLint("StaticFieldLeak")
+class FacturasViewModel(private val remoteConfig: RemoteConfigHelper,
+                        private val context: Context,
+                        private val rep: FacturaRepository): ViewModel() {
 
-    private lateinit var remoteConfig: RemoteConfigHelper
     private var visibilidad: Boolean = true
     private var tipo: Int = 1
 
@@ -34,11 +37,11 @@ class FacturasViewModel: ViewModel() {
     val factModel: LiveData<List<Factura>?>
         get() = _factModel
 
-    private val getFacturasUseCase = GetFacturasUseCase()
-    private val getFiltradasUseCase = GetFiltradasUseCase()
-    private val getFacturasBDDUseCase = GetFacturasBDDUseCase()
-    private val insertFacturasUseCase = InsertFacturasUseCase()
-    private val getMayorMontoUseCase = GetMayorMontoUseCase()
+    private val getFacturasUseCase = GetFacturasUseCase(rep)
+    private val getFiltradasUseCase = GetFiltradasUseCase(rep)
+    private val getFacturasBDDUseCase =  GetFacturasBDDUseCase(rep)
+    private val insertFacturasUseCase = InsertFacturasUseCase(rep)
+    private val getMayorMontoUseCase = GetMayorMontoUseCase(rep)
 
 
     // VARIABLES DEL FILTRADO
@@ -83,8 +86,7 @@ class FacturasViewModel: ViewModel() {
 
     private fun remote(){
         viewModelScope.launch {
-            if (isNetworkAvailable(MyApplication.context)) {
-                remoteConfig = RemoteConfigHelper.getInstance()
+            if (isNetworkAvailable(context)) {
                 remoteConfig.fetch()
                 visibilidad = remoteConfig.getBoolean("listaVista")
             }
@@ -106,7 +108,7 @@ class FacturasViewModel: ViewModel() {
 
          viewModelScope.launch {
              if(visibilidad) {
-                 if(isNetworkAvailable(MyApplication.context)) {
+                 if(isNetworkAvailable(context)) {
                      aux = getFacturasUseCase(tipo)
                  }
 
@@ -131,9 +133,11 @@ class FacturasViewModel: ViewModel() {
 
 
 
-    // FUNCIONES PARA EL FILTRADO
+    // ------------------------------------------------ //
+    // --------------- FILTRADO ----------------------- //
+    // ------------------------------------------------ //
 
-    fun escogerFecha(context: Context, mode: Boolean) {
+    fun escogerFecha(mode: Boolean) {
         val datePicker = DatePickerDialog(context, { _, year, month, dayOfMonth ->
 
             // Fecha escogida

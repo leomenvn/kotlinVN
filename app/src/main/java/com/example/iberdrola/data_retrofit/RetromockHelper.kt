@@ -4,7 +4,7 @@ import co.infinum.retromock.Retromock
 import com.example.iberdrola.core.ResourceBodyFactory
 
 class RetromockHelper private constructor() {
-
+/*
     companion object {
         @Volatile
         private var instance: Retromock? = null
@@ -19,4 +19,6 @@ class RetromockHelper private constructor() {
             }
         }
     }
+
+ */
 }

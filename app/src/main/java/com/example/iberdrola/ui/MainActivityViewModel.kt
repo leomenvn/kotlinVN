@@ -5,15 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.iberdrola.core.RemoteConfigHelper
-import com.example.iberdrola.data_ktor.KtorHelper
 import com.example.iberdrola.domain.usecases.auth.GetCurrentUserUseCase
 import com.example.iberdrola.domain.usecases.auth.SignOutUseCase
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
-class MainActivityViewModel: ViewModel() {
-
-    private var remoteConfig: RemoteConfigHelper = RemoteConfigHelper.getInstance()
+class MainActivityViewModel (private val remoteConfig: RemoteConfigHelper): ViewModel(){
 
     private val _visibilidadLista = MutableLiveData<Boolean>()
     val visibilidadLista: LiveData<Boolean>

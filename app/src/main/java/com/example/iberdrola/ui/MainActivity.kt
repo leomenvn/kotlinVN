@@ -3,7 +3,6 @@ package com.example.iberdrola.ui
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
@@ -14,12 +13,13 @@ import com.example.iberdrola.ui.auth.LoginActivity
 import com.example.iberdrola.ui.facturas.FacturasActivity
 import com.example.iberdrola.ui.navegacion.NavegacionActivity
 import com.example.iberdrola.ui.smartsolar.SmartSolarActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val viewmodel: MainActivityViewModel by viewModels()
+    private val viewmodel: MainActivityViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

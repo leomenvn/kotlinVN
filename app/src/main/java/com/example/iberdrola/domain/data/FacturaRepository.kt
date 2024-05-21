@@ -8,9 +8,11 @@ import com.example.iberdrola.domain.data.model.Factura
 import com.example.iberdrola.data_retrofit.FacturaService
 import com.example.iberdrola.data_retrofit.response.DetallesResponse
 
-class FacturaRepository (database: IberdrolaDatabase = IberdrolaDatabase.getIntance()) {
+class FacturaRepository (
+    database: IberdrolaDatabase,
+    private val api: FacturaService,
+                        ) {
 
-    private val api = FacturaService()
     private val ktor = KtorHelper()
     private val dao: FacturaDAO = database.getDAOInstance()
 
@@ -108,15 +110,4 @@ class FacturaRepository (database: IberdrolaDatabase = IberdrolaDatabase.getInta
         return "$yy-$mm-$dd"
     }
 
-
-    companion object {
-        @Volatile
-        private var instance: FacturaRepository? = null
-
-        fun getInstance(): FacturaRepository {
-            return instance ?: synchronized(this) {
-                instance ?: FacturaRepository().also { instance = it }
-            }
-        }
-    }
 }

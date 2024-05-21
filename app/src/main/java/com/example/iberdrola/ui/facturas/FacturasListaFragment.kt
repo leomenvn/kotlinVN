@@ -1,5 +1,6 @@
 package com.example.iberdrola.ui.facturas
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupMenu
 import androidx.annotation.MenuRes
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,13 +19,14 @@ import com.example.iberdrola.R
 import com.example.iberdrola.databinding.FragmentFacturasListaBinding
 import com.example.iberdrola.ui.MainActivity
 import com.example.iberdrola.ui.facturas.adapters.FacturasListaAdapter
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class FacturasListaFragment : Fragment() {
 
     private lateinit var rv: RecyclerView
     private lateinit var adapter: FacturasListaAdapter
 
-    private val viewmodel: FacturasViewModel by activityViewModels()
+    private val viewmodel: FacturasViewModel by activityViewModel()
     private lateinit var binding: FragmentFacturasListaBinding
     private lateinit var selector: Button
 
@@ -41,6 +42,8 @@ class FacturasListaFragment : Fragment() {
         return binding.root
     }
 
+
+    @SuppressLint("SetTextI18n")
     private fun showMenu(v: View, @MenuRes menuRes: Int) {
         val popup = PopupMenu(requireContext(), v)
         popup.menuInflater.inflate(menuRes, popup.menu)
@@ -48,17 +51,17 @@ class FacturasListaFragment : Fragment() {
         popup.setOnMenuItemClickListener {
             when(it.itemId){
                 R.id.retrofit -> {
-                    selector.text = "Retrofit"
+                    selector.text = "RETROFIT"
                     viewmodel.setTipo(1)
                     true
                 }
                 R.id.retromock -> {
-                    selector.text = "Retromock"
+                    selector.text = "RETROMOCK"
                     viewmodel.setTipo(2)
                     true
                 }
                 R.id.ktor -> {
-                    selector.text = "Ktor"
+                    selector.text = "KTOR"
                     viewmodel.setTipo(3)
                     true
                 }

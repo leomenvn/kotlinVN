@@ -10,10 +10,10 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.iberdrola.R
 import com.example.iberdrola.databinding.FragmentFacturasFiltroBinding
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import java.util.Locale
 
 class FacturasFiltroFragment : Fragment() {
@@ -26,7 +26,7 @@ class FacturasFiltroFragment : Fragment() {
     private lateinit var tvMonto: TextView
     private lateinit var listaCB: List<CheckBox>
 
-    private val viewmodel: FacturasViewModel by activityViewModels()
+    private val viewmodel: FacturasViewModel by activityViewModel()
 
 
     @SuppressLint("SetTextI18n")
@@ -91,11 +91,11 @@ class FacturasFiltroFragment : Fragment() {
 
 
         btFechaMin.setOnClickListener{
-            viewmodel.escogerFecha(requireContext(), true)
+            viewmodel.escogerFecha(true)
         }
 
         btFechaMax.setOnClickListener{
-            viewmodel.escogerFecha(requireContext(), false)
+            viewmodel.escogerFecha(false)
         }
 
 

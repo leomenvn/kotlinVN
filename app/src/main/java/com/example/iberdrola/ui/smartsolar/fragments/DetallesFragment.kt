@@ -7,15 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
-import androidx.fragment.app.viewModels
 import com.example.iberdrola.R
 import com.example.iberdrola.databinding.FragmentDetallesBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetallesFragment : Fragment() {
 
     private lateinit var binding: FragmentDetallesBinding
-    private val viewmodel: DetallesFragmentViewModel by viewModels()
+    private val viewmodel: DetallesFragmentViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
