@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.PopupMenu
+import androidx.annotation.MenuRes
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +27,7 @@ class FacturasListaFragment : Fragment() {
 
     private val viewmodel: FacturasViewModel by activityViewModels()
     private lateinit var binding: FragmentFacturasListaBinding
+    private lateinit var selector: Button
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -33,9 +36,39 @@ class FacturasListaFragment : Fragment() {
         rv = binding.facturasRV
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
-        binding.switchLista.isChecked = viewmodel.retromock
+        selector = binding.selector
 
         return binding.root
+    }
+
+    private fun showMenu(v: View, @MenuRes menuRes: Int) {
+        val popup = PopupMenu(requireContext(), v)
+        popup.menuInflater.inflate(menuRes, popup.menu)
+
+        popup.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.retrofit -> {
+                    selector.text = "Retrofit"
+                    viewmodel.setTipo(1)
+                    true
+                }
+                R.id.retromock -> {
+                    selector.text = "Retromock"
+                    viewmodel.setTipo(2)
+                    true
+                }
+                R.id.ktor -> {
+                    selector.text = "Ktor"
+                    viewmodel.setTipo(3)
+                    true
+                }
+                else -> {
+                    Log.d("POPUP", it.itemId.toString())
+                    false
+                }
+            }
+        }
+        popup.show()
     }
 
 
@@ -57,6 +90,10 @@ class FacturasListaFragment : Fragment() {
 
 
     private fun onListener() {
+        selector.setOnClickListener { v: View ->
+            showMenu(v, R.menu.menu_lista_opcion)
+        }
+
         binding.mtbFacturas.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menuFacturasLista -> {
@@ -73,9 +110,6 @@ class FacturasListaFragment : Fragment() {
             startActivity(intent)
         }
 
-        binding.switchLista.setOnCheckedChangeListener { _, isChecked ->
-            viewmodel.actualizarMock(isChecked)
-        }
     }
 
     private fun onItemSelected() {

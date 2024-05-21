@@ -28,7 +28,7 @@ class FacturasViewModel: ViewModel() {
 
     private lateinit var remoteConfig: RemoteConfigHelper
     private var visibilidad: Boolean = true
-    var retromock: Boolean = false
+    private var tipo: Int = 1
 
     private val _factModel = MutableLiveData<List<Factura>?>()
     val factModel: LiveData<List<Factura>?>
@@ -102,37 +102,37 @@ class FacturasViewModel: ViewModel() {
 
 
      private fun traerFacturas(){
-         viewModelScope.launch {
-             var aux: List<Factura>? = emptyList()
+         var aux: List<Factura>? = emptyList()
 
-             if(visibilidad){
-                 if (retromock) {
-                     aux = getFacturasUseCase(false)
-                 } else {
-                     if (isNetworkAvailable(MyApplication.context)) {
-                         aux = getFacturasUseCase(true)
-                     }
+         viewModelScope.launch {
+             if(visibilidad) {
+                 if(isNetworkAvailable(MyApplication.context)) {
+                     aux = getFacturasUseCase(tipo)
                  }
-                 if (aux != null) {
-                     insertFacturasUseCase.invoke(aux)
+
+                 aux?.let {
+                     insertFacturasUseCase.invoke(it)
                  }
                  sbMax = getMayorMontoUseCase.invoke()
-             }else{
-                sbMax = 0.0
+             }
+
+             else {
+                 sbMax = 0.0
              }
              _factModel.value = getFacturasBDDUseCase.invoke()
          }
      }
 
 
-    fun actualizarMock(bool: Boolean) {
-        retromock = bool
+    fun setTipo(n: Int){
+        tipo = n
         traerFacturas()
     }
 
 
 
     // FUNCIONES PARA EL FILTRADO
+
     fun escogerFecha(context: Context, mode: Boolean) {
         val datePicker = DatePickerDialog(context, { _, year, month, dayOfMonth ->
 

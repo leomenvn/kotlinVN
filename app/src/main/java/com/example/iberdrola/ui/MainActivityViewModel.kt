@@ -27,10 +27,6 @@ class MainActivityViewModel: ViewModel() {
     val user: MutableLiveData<FirebaseUser>
         get() = _user
 
-    private val _ktor = MutableLiveData<Boolean>()
-    val ktor: MutableLiveData<Boolean>
-        get() = _ktor
-
 
     private val getCurrentUser = GetCurrentUserUseCase()
     private val signOutUseCase = SignOutUseCase()
@@ -41,7 +37,6 @@ class MainActivityViewModel: ViewModel() {
             remoteConfig.fetch()
             _visibilidadLista.value = remoteConfig.getBoolean("listaVista")
             _modo.value = remoteConfig.getBoolean("temas")
-            _ktor.value = remoteConfig.getBoolean("ktor")
         }
     }
 

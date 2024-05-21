@@ -1,5 +1,6 @@
 package com.example.iberdrola.domain.data
 
+import com.example.iberdrola.data_ktor.KtorHelper
 import com.example.iberdrola.domain.data.database.IberdrolaDatabase
 import com.example.iberdrola.domain.data.database.FacturaDAO
 import com.example.iberdrola.domain.data.database.FacturaEntity
@@ -10,10 +11,15 @@ import com.example.iberdrola.data_retrofit.response.DetallesResponse
 class FacturaRepository (database: IberdrolaDatabase = IberdrolaDatabase.getIntance()) {
 
     private val api = FacturaService()
+    private val ktor = KtorHelper()
     private val dao: FacturaDAO = database.getDAOInstance()
 
     suspend fun getAllFacturasAPI(mode: Boolean): List<Factura>? {
         return api.getDataAPI(mode)
+    }
+
+    suspend fun getAllFacturasKtor(): List<Factura> {
+        return ktor.getData()
     }
 
     suspend fun getDetalles(): DetallesResponse? {

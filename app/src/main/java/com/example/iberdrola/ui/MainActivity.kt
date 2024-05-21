@@ -64,10 +64,6 @@ class MainActivity : AppCompatActivity() {
             binding.swVerLista.isChecked = aux
         }
 
-        viewmodel.ktor.observe(this){ aux ->
-            binding.swKtor.isChecked = aux
-        }
-
         viewmodel.modo.observe(this){ modo ->
             if(modo){
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
