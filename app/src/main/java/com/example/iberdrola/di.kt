@@ -19,33 +19,42 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val appModule = module {
+
     single { MyApplication() }
+
     single { RemoteConfigHelper(get()) }
+
     single { KtorHelper() }
+
     single {
         Retrofit.Builder()
             .baseUrl("https://viewnextandroid.wiremockapi.cloud/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
     single{
         Retromock.Builder()
             .retrofit(get())
             .defaultBodyFactory(ResourceBodyFactory())
             .build()
     }
+
     single{ FacturaService(get(), get()) }
+
     single {
         Room.databaseBuilder(
             get(),
             IberdrolaDatabase::class.java, "IberdrolaDatabase"
         ).build()
     }
+
     single<FacturaDAO> {
         val database = get<IberdrolaDatabase>()
         database.getDAOInstance()
     }
-    single{ FacturaRepository(get(), get()) }
+
+    single{ FacturaRepository(get(), get(), get()) }
 
 
     viewModel { AuthViewModel(get()) }

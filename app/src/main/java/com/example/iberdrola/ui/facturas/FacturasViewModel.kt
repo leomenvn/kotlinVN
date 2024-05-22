@@ -28,7 +28,7 @@ import com.example.iberdrola.domain.usecases.facturas.GetMayorMontoUseCase
 @SuppressLint("StaticFieldLeak")
 class FacturasViewModel(private val remoteConfig: RemoteConfigHelper,
                         private val context: Context,
-                        private val rep: FacturaRepository): ViewModel() {
+                        rep: FacturaRepository): ViewModel() {
 
     private var visibilidad: Boolean = true
     private var tipo: Int = 1
@@ -45,8 +45,8 @@ class FacturasViewModel(private val remoteConfig: RemoteConfigHelper,
 
 
     // VARIABLES DEL FILTRADO
-    private val calendar = Calendar.getInstance(Locale.getDefault())
     private var filtro = Filtro()
+    var sbMax: Double = 100.0
 
     private val _fechaMin = MutableLiveData<String>()
     val fechaMin: LiveData<String>
@@ -68,7 +68,6 @@ class FacturasViewModel(private val remoteConfig: RemoteConfigHelper,
     val sbEstado: LiveData<Int>
         get() = _sbEstado
 
-    var sbMax: Double = 100.0
 
 
     init {
@@ -137,25 +136,46 @@ class FacturasViewModel(private val remoteConfig: RemoteConfigHelper,
     // --------------- FILTRADO ----------------------- //
     // ------------------------------------------------ //
 
-    fun escogerFecha(mode: Boolean) {
+    fun escogerFechaMin(context: Context){
+        val calendar = Calendar.getInstance(Locale.getDefault())
         val datePicker = DatePickerDialog(context, { _, year, month, dayOfMonth ->
-
-            // Fecha escogida
-            val calendar = Calendar.getInstance()
             calendar.set(year, month, dayOfMonth)
-
             val fecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(calendar.time)
-            if(mode){
-                _fechaMin.value = fecha
-                filtro.fechaMin = fechaBDD(fecha)
-            } else{
-                _fechaMax.value = fecha
-                filtro.fechaMax = fechaBDD(fecha)
-            }
+            _fechaMin.value = fecha
+            filtro.fechaMin = fechaBDD(fecha)
 
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
 
-        datePicker.datePicker.maxDate = System.currentTimeMillis()
+        if(_fechaMax.value != null && _fechaMax.value != "") {
+            val min = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(_fechaMax.value!!)
+            min?.let {
+                datePicker.datePicker.maxDate = it.time
+            }
+        }else{
+            datePicker.datePicker.maxDate = System.currentTimeMillis()
+        }
+
+        datePicker.show()
+    }
+
+    fun escogerFechaMax(context: Context){
+        val calendar = Calendar.getInstance(Locale.getDefault())
+        val datePicker = DatePickerDialog(context, { _, year, month, dayOfMonth ->
+            calendar.set(year, month, dayOfMonth)
+
+            val fecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(calendar.time)
+            _fechaMax.value = fecha
+            filtro.fechaMax = fechaBDD(fecha)
+
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
+
+        if(_fechaMin.value != null && _fechaMin.value != "") {
+            val min = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(_fechaMin.value!!)
+            min?.let {
+                datePicker.datePicker.minDate = it.time
+            }
+        }
+
         datePicker.show()
     }
 
@@ -187,6 +207,7 @@ class FacturasViewModel(private val remoteConfig: RemoteConfigHelper,
             }
         }
     }
+
 
     fun quitarCB(listaCB: List<CheckBox>){
         listaCB.forEach { cb ->
