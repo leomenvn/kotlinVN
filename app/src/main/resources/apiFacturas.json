@@ -7,12 +7,12 @@
       "fecha": "07/02/2023"
     },
     {
-      "descEstado": "Anulada",
+      "descEstado": "Anuladas",
       "importeOrdenacion": 25.140000000000001,
       "fecha": "05/02/2019"
     },
     {
-      "descEstado": "Anulada",
+      "descEstado": "Anuladas",
       "importeOrdenacion": 22.690000000000001,
       "fecha": "08/01/2025"
     },
@@ -22,7 +22,7 @@
       "fecha": "07/12/2020"
     },
     {
-      "descEstado": "Pagada",
+      "descEstado": "Anuladas",
       "importeOrdenacion": 35.159999999999997,
       "fecha": "16/11/2018"
     },
