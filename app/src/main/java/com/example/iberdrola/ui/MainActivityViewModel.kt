@@ -10,9 +10,7 @@ import com.example.iberdrola.domain.usecases.auth.SignOutUseCase
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
-class MainActivityViewModel: ViewModel() {
-
-    private var remoteConfig: RemoteConfigHelper = RemoteConfigHelper.getInstance()
+class MainActivityViewModel (private val remoteConfig: RemoteConfigHelper): ViewModel(){
 
     private val _visibilidadLista = MutableLiveData<Boolean>()
     val visibilidadLista: LiveData<Boolean>
@@ -25,6 +23,7 @@ class MainActivityViewModel: ViewModel() {
     private val _user = MutableLiveData<FirebaseUser>()
     val user: MutableLiveData<FirebaseUser>
         get() = _user
+
 
     private val getCurrentUser = GetCurrentUserUseCase()
     private val signOutUseCase = SignOutUseCase()
@@ -42,5 +41,6 @@ class MainActivityViewModel: ViewModel() {
         signOutUseCase.invoke()
         _user.value = getCurrentUser.invoke()
     }
+
 }
 

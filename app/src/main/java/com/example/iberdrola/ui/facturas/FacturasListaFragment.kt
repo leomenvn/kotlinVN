@@ -1,5 +1,6 @@
 package com.example.iberdrola.ui.facturas
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.fragment.app.activityViewModels
+import android.widget.PopupMenu
+import androidx.annotation.MenuRes
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,14 +19,16 @@ import com.example.iberdrola.R
 import com.example.iberdrola.databinding.FragmentFacturasListaBinding
 import com.example.iberdrola.ui.MainActivity
 import com.example.iberdrola.ui.facturas.adapters.FacturasListaAdapter
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class FacturasListaFragment : Fragment() {
 
     private lateinit var rv: RecyclerView
     private lateinit var adapter: FacturasListaAdapter
 
-    private val viewmodel: FacturasViewModel by activityViewModels()
+    private val viewmodel: FacturasViewModel by activityViewModel()
     private lateinit var binding: FragmentFacturasListaBinding
+    private lateinit var selector: Button
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -33,9 +37,41 @@ class FacturasListaFragment : Fragment() {
         rv = binding.facturasRV
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
-        binding.switchLista.isChecked = viewmodel.retromock
+        selector = binding.selector
 
         return binding.root
+    }
+
+
+    @SuppressLint("SetTextI18n")
+    private fun showMenu(v: View, @MenuRes menuRes: Int) {
+        val popup = PopupMenu(requireContext(), v)
+        popup.menuInflater.inflate(menuRes, popup.menu)
+
+        popup.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.retrofit -> {
+                    selector.text = "RETROFIT"
+                    viewmodel.setTipo(1)
+                    true
+                }
+                R.id.retromock -> {
+                    selector.text = "RETROMOCK"
+                    viewmodel.setTipo(2)
+                    true
+                }
+                R.id.ktor -> {
+                    selector.text = "KTOR"
+                    viewmodel.setTipo(3)
+                    true
+                }
+                else -> {
+                    Log.d("POPUP", it.itemId.toString())
+                    false
+                }
+            }
+        }
+        popup.show()
     }
 
 
@@ -57,6 +93,10 @@ class FacturasListaFragment : Fragment() {
 
 
     private fun onListener() {
+        selector.setOnClickListener { v: View ->
+            showMenu(v, R.menu.menu_lista_opcion)
+        }
+
         binding.mtbFacturas.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menuFacturasLista -> {
@@ -73,9 +113,6 @@ class FacturasListaFragment : Fragment() {
             startActivity(intent)
         }
 
-        binding.switchLista.setOnCheckedChangeListener { _, isChecked ->
-            viewmodel.actualizarMock(isChecked)
-        }
     }
 
     private fun onItemSelected() {

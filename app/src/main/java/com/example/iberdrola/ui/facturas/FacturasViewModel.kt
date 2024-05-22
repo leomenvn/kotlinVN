@@ -1,5 +1,6 @@
 package com.example.iberdrola.ui.facturas
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Context
 import android.net.ConnectivityManager
@@ -10,40 +11,42 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.iberdrola.MyApplication
 import com.example.iberdrola.core.RemoteConfigHelper
+import com.example.iberdrola.domain.data.FacturaRepository
 import com.example.iberdrola.domain.data.model.Factura
 import com.example.iberdrola.domain.data.model.Filtro
 import com.example.iberdrola.domain.usecases.facturas.GetFacturasBDDUseCase
 import com.example.iberdrola.domain.usecases.facturas.GetFacturasUseCase
 import com.example.iberdrola.domain.usecases.facturas.GetFiltradasUseCase
-import com.example.iberdrola.domain.usecases.facturas.GetMayorMontoUseCase
 import com.example.iberdrola.domain.usecases.facturas.InsertFacturasUseCase
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import com.example.iberdrola.domain.usecases.facturas.GetMayorMontoUseCase
 
-class FacturasViewModel: ViewModel() {
+@SuppressLint("StaticFieldLeak")
+class FacturasViewModel(private val remoteConfig: RemoteConfigHelper,
+                        private val context: Context,
+                        rep: FacturaRepository): ViewModel() {
 
-    private lateinit var remoteConfig: RemoteConfigHelper
     private var visibilidad: Boolean = true
-    var retromock: Boolean = false
+    private var tipo: Int = 1
 
     private val _factModel = MutableLiveData<List<Factura>?>()
     val factModel: LiveData<List<Factura>?>
         get() = _factModel
 
-    private val getFacturasUseCase = GetFacturasUseCase()
-    private val getFiltradasUseCase = GetFiltradasUseCase()
-    private val getFacturasBDDUseCase = GetFacturasBDDUseCase()
-    private val insertFacturasUseCase = InsertFacturasUseCase()
-    private val getMayorMontoUseCase = GetMayorMontoUseCase()
+    private val getFacturasUseCase = GetFacturasUseCase(rep)
+    private val getFiltradasUseCase = GetFiltradasUseCase(rep)
+    private val getFacturasBDDUseCase =  GetFacturasBDDUseCase(rep)
+    private val insertFacturasUseCase = InsertFacturasUseCase(rep)
+    private val getMayorMontoUseCase = GetMayorMontoUseCase(rep)
 
 
     // VARIABLES DEL FILTRADO
-    private val calendar = Calendar.getInstance(Locale.getDefault())
     private var filtro = Filtro()
+    var sbMax: Double = 100.0
 
     private val _fechaMin = MutableLiveData<String>()
     val fechaMin: LiveData<String>
@@ -65,7 +68,6 @@ class FacturasViewModel: ViewModel() {
     val sbEstado: LiveData<Int>
         get() = _sbEstado
 
-    var sbMax: Double = 100.0
 
 
     init {
@@ -83,8 +85,7 @@ class FacturasViewModel: ViewModel() {
 
     private fun remote(){
         viewModelScope.launch {
-            if (isNetworkAvailable(MyApplication.context)) {
-                remoteConfig = RemoteConfigHelper.getInstance()
+            if (isNetworkAvailable(context)) {
                 remoteConfig.fetch()
                 visibilidad = remoteConfig.getBoolean("listaVista")
             }
@@ -102,56 +103,79 @@ class FacturasViewModel: ViewModel() {
 
 
      private fun traerFacturas(){
-         viewModelScope.launch {
-             var aux: List<Factura>? = emptyList()
+         var aux: List<Factura>? = emptyList()
 
-             if(visibilidad){
-                 if (retromock) {
-                     aux = getFacturasUseCase(false)
-                 } else {
-                     if (isNetworkAvailable(MyApplication.context)) {
-                         aux = getFacturasUseCase(true)
-                     }
+         viewModelScope.launch {
+             if(visibilidad) {
+                 if(isNetworkAvailable(context)) {
+                     aux = getFacturasUseCase(tipo)
                  }
-                 if (aux != null) {
-                     insertFacturasUseCase.invoke(aux)
+
+                 aux?.let {
+                     insertFacturasUseCase.invoke(it)
                  }
                  sbMax = getMayorMontoUseCase.invoke()
-             }else{
-                sbMax = 0.0
+             }
+
+             else {
+                 sbMax = 0.0
              }
              _factModel.value = getFacturasBDDUseCase.invoke()
          }
      }
 
 
-    fun actualizarMock(bool: Boolean) {
-        retromock = bool
+    fun setTipo(n: Int){
+        tipo = n
         traerFacturas()
     }
 
 
 
-    // FUNCIONES PARA EL FILTRADO
-    fun escogerFecha(context: Context, mode: Boolean) {
+    // ------------------------------------------------ //
+    // --------------- FILTRADO ----------------------- //
+    // ------------------------------------------------ //
+
+    fun escogerFechaMin(context: Context){
+        val calendar = Calendar.getInstance(Locale.getDefault())
         val datePicker = DatePickerDialog(context, { _, year, month, dayOfMonth ->
-
-            // Fecha escogida
-            val calendar = Calendar.getInstance()
             calendar.set(year, month, dayOfMonth)
-
             val fecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(calendar.time)
-            if(mode){
-                _fechaMin.value = fecha
-                filtro.fechaMin = fechaBDD(fecha)
-            } else{
-                _fechaMax.value = fecha
-                filtro.fechaMax = fechaBDD(fecha)
-            }
+            _fechaMin.value = fecha
+            filtro.fechaMin = fechaBDD(fecha)
 
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
 
-        datePicker.datePicker.maxDate = System.currentTimeMillis()
+        if(_fechaMax.value != null && _fechaMax.value != "") {
+            val min = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(_fechaMax.value!!)
+            min?.let {
+                datePicker.datePicker.maxDate = it.time
+            }
+        }else{
+            datePicker.datePicker.maxDate = System.currentTimeMillis()
+        }
+
+        datePicker.show()
+    }
+
+    fun escogerFechaMax(context: Context){
+        val calendar = Calendar.getInstance(Locale.getDefault())
+        val datePicker = DatePickerDialog(context, { _, year, month, dayOfMonth ->
+            calendar.set(year, month, dayOfMonth)
+
+            val fecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(calendar.time)
+            _fechaMax.value = fecha
+            filtro.fechaMax = fechaBDD(fecha)
+
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
+
+        if(_fechaMin.value != null && _fechaMin.value != "") {
+            val min = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(_fechaMin.value!!)
+            min?.let {
+                datePicker.datePicker.minDate = it.time
+            }
+        }
+
         datePicker.show()
     }
 
@@ -183,6 +207,7 @@ class FacturasViewModel: ViewModel() {
             }
         }
     }
+
 
     fun quitarCB(listaCB: List<CheckBox>){
         listaCB.forEach { cb ->

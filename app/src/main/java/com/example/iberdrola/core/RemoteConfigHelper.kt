@@ -1,13 +1,13 @@
 package com.example.iberdrola.core
 
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import com.example.iberdrola.MyApplication.Companion.context
 import com.example.iberdrola.R
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 
-class RemoteConfigHelper private constructor(){
+class RemoteConfigHelper (private val context: Context){
 
     private val remoteConfig = FirebaseRemoteConfig.getInstance()
 
@@ -36,16 +36,5 @@ class RemoteConfigHelper private constructor(){
 
     fun getBoolean(key: String): Boolean{
         return remoteConfig.getBoolean(key)
-    }
-
-    companion object {
-        @Volatile
-        private var instance: RemoteConfigHelper? = null
-
-        fun getInstance(): RemoteConfigHelper {
-            return instance ?: synchronized(this) {
-                instance ?: RemoteConfigHelper().also { instance = it }
-            }
-        }
     }
 }

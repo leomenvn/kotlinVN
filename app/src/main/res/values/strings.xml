@@ -76,5 +76,12 @@
     <string name="swLista">Permitir vista de facturas</string>
     <string name="alternar_tema">Alternar tema</string>
     <string name="confirmarPass">Confirmar contraseña:</string>
+    <string name="getter">Escoge la conexión</string>
+    <string name="ktor">Ktor</string>
+    <string name="retromock">Retromock</string>
+    <string name="retrofit">Retrofit</string>
+    <string name="correo">Correo:</string>
+    <string name="volver">Volver a inicio</string>
+
 
 </resources>

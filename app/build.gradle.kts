@@ -5,6 +5,7 @@ plugins {
     id("com.google.gms.google-services")
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
+    kotlin("plugin.serialization") version "1.9.0"
 }
 
 android {
@@ -92,6 +93,23 @@ dependencies {
 
     // System UI Controller
     implementation(libs.accompanist.systemuicontroller)
+
+    // Koin
+    implementation("io.insert-koin:koin-android:3.5.0")
+    implementation("io.insert-koin:koin-android-compat:3.5.0")
+    implementation("io.insert-koin:koin-androidx-workmanager:3.5.0")
+    implementation("io.insert-koin:koin-androidx-navigation:3.5.0")
+    testImplementation("io.insert-koin:koin-test:3.5.0")
+    testImplementation("io.insert-koin:koin-test-junit4:3.5.0")
+    testImplementation("io.insert-koin:koin-test-junit5:3.5.0")
+
+    // Ktor
+    implementation("io.ktor:ktor-client-core:2.3.11")
+    implementation("io.ktor:ktor-client-cio:2.3.11")
+    implementation("io.ktor:ktor-client-content-negotiation:2.3.11")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.11")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json")
+    implementation("io.ktor:ktor-client-logging:2.3.11")
 
     // Criptografia
     implementation("androidx.security:security-crypto-ktx:1.1.0-alpha06")

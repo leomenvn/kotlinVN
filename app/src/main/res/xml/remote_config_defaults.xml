@@ -5,6 +5,10 @@
     <value>true</value>
   </entry>
   <entry>
+    <key>ktor</key>
+    <value>false</value>
+  </entry>
+  <entry>
     <key>listaVista</key>
     <value>true</value>
   </entry>

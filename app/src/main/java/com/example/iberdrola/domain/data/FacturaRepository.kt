@@ -1,19 +1,23 @@
 package com.example.iberdrola.domain.data
 
-import com.example.iberdrola.domain.data.database.IberdrolaDatabase
+import com.example.iberdrola.data_ktor.KtorHelper
 import com.example.iberdrola.domain.data.database.FacturaDAO
 import com.example.iberdrola.domain.data.database.FacturaEntity
 import com.example.iberdrola.domain.data.model.Factura
 import com.example.iberdrola.data_retrofit.FacturaService
 import com.example.iberdrola.data_retrofit.response.DetallesResponse
 
-class FacturaRepository (database: IberdrolaDatabase = IberdrolaDatabase.getIntance()) {
-
-    private val api = FacturaService()
-    private val dao: FacturaDAO = database.getDAOInstance()
+class FacturaRepository (
+    private val api: FacturaService,
+    private val dao: FacturaDAO,
+    private val ktor: KtorHelper) {
 
     suspend fun getAllFacturasAPI(mode: Boolean): List<Factura>? {
         return api.getDataAPI(mode)
+    }
+
+    suspend fun getAllFacturasKtor(): List<Factura> {
+        return ktor.getData()
     }
 
     suspend fun getDetalles(): DetallesResponse? {
@@ -33,16 +37,6 @@ class FacturaRepository (database: IberdrolaDatabase = IberdrolaDatabase.getInta
         dao.deleteAllFacturas()
         dao.insertAllFacturas(modelToEntity(facturas))
     }
-
-    suspend fun deleteFactura(factura: Factura){
-        val fact = FacturaEntity(
-            pendiente = factura.descEstado,
-            monto = factura.importeOrdenacion,
-            fechaCreacion = factura.fecha
-        )
-        dao.delete(fact)
-    }
-
 
     suspend fun getFiltradas(estado: HashMap<String, Boolean>, monto: Double, fechaMin: String, fechaMax: String): List<Factura>{
         var b = false
@@ -102,15 +96,4 @@ class FacturaRepository (database: IberdrolaDatabase = IberdrolaDatabase.getInta
         return "$yy-$mm-$dd"
     }
 
-
-    companion object {
-        @Volatile
-        private var instance: FacturaRepository? = null
-
-        fun getInstance(): FacturaRepository {
-            return instance ?: synchronized(this) {
-                instance ?: FacturaRepository().also { instance = it }
-            }
-        }
-    }
 }
